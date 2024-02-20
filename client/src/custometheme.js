@@ -1,10 +1,6 @@
 export const headerTheme = {
   root: {
-<<<<<<< HEAD
-    base: "bg-white px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800",
-=======
     base: "bg-white px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4",
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
     rounded: {
       on: "rounded",
       off: "",
@@ -26,11 +22,7 @@ export const headerTheme = {
   },
   collapse: {
     base: "w-full lg:block lg:w-auto",
-<<<<<<< HEAD
-    list: "mt-4 flex flex-col lg:mt-0 lg:flex-row lg:space-x-6 lg:text-sm lg:font-medium",
-=======
     list: "mt-4 flex flex-col lg:mt-0 lg:flex-row lg:space-x-8 lg:text-sm lg:font-medium",
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
     hidden: {
       on: "hidden",
       off: "",

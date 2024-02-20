@@ -103,24 +103,14 @@ const Content = () => {
 
   return !currentUser || !currentUser.isAdmin ? (
     <div className="container w-full mx-auto flex flex-col justify-center items-center py-10 lg:flex-row gap-4">
-<<<<<<< HEAD
       <div className="flex-1">
         <img
-          src="/asset/girl.svg"
-=======
-      <div>
-        <img
           src="/asset/home.svg"
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
           alt="Home"
           className="w-full h-auto md:h-full"
         />
       </div>
-<<<<<<< HEAD
       <div className="flex w-full lg:w-5/12 flex-col sm:flex-row gap-4 items-center p-4">
-=======
-      <div className="flex w-full lg:w-1/2 flex-col sm:flex-row gap-4 items-center p-4">
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
         <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             <TextInput

@@ -44,8 +44,7 @@ const Cards = () => {
           Explore our top-notch assistance tailored to meet your academic needs
         </p>
       </div>
-  
-<<<<<<< HEAD
+
       <div className="my-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {renderedCards}
       </div>
@@ -59,11 +58,6 @@ const Cards = () => {
           Write My Paper Now
         </Button>
       </div>
-=======
-      <div className="my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {renderedCards}
-      </div>
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
     </div>
   );
 };

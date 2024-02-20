@@ -1,23 +1,13 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
 import { HiMail, HiLockClosed, HiUserCircle } from "react-icons/hi";
-=======
-import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { HiMail, HiLockClosed } from "react-icons/hi";
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
   const [verificationSent, setVerificationSent] = useState(false); // New state to track if verification email is sent
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,10 +44,7 @@ const SignUp = () => {
       }
 
       if (res.ok) {
-<<<<<<< HEAD
         setVerificationSent(true);
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
         navigate("/sign-in");
       }
     } catch (error) {
@@ -71,12 +58,6 @@ const SignUp = () => {
       <div className="w-10/12">
         <div className="flex p-3 w-9/12 sm:w-11/12 mx-auto flex-col md:flex-row md:items-center gap-20 py-20">
           <div className="flex-1">
-            {/* <Link to="/" className="font-bold dark:text-white text-4xl">
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white mr-2">
-                Logo
-              </span>
-              Name
-            </Link> */}
             <Link to="/" className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2">
               <img
                 src="/asset/logo.png"
@@ -99,10 +80,7 @@ const SignUp = () => {
                 <Label value="Your Username" />
                 <TextInput
                   type="text"
-<<<<<<< HEAD
                   icon={HiUserCircle}
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
                   placeholder="Username"
                   id="username"
                   autoComplete="off"
@@ -114,14 +92,10 @@ const SignUp = () => {
                 <Label value="Your PhoneNumber" />
                 <TextInput
                   type="text"
-                  addon="+91"
                   placeholder="PhoneNumber"
                   id="phonenumber"
                   autoComplete="off"
-<<<<<<< HEAD
-=======
                   required
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
                   onChange={handleChange}
                 />
               </div>
@@ -175,14 +149,11 @@ const SignUp = () => {
                 {errorMessage}
               </Alert>
             )}
-<<<<<<< HEAD
             {verificationSent && (
               <Alert className="mt-5" color="success">
                 Verification email sent successfully. Please check your email inbox.
               </Alert>
             )}
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
           </div>
         </div>
       </div>

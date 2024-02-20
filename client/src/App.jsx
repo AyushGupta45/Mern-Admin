@@ -14,10 +14,8 @@ import UpdateBlogs from "./pages/UpdateBlogs";
 import BlogPage from "./pages/BlogPage";
 import BlogsUser from "./components/BlogsUser";
 import Expert from "./pages/Expert";
-<<<<<<< HEAD
 import VerifyEmail from "./pages/Verify";
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
+
 
 const App = () => {
   return (
@@ -43,10 +41,8 @@ const App = () => {
         <Route path="/subjects/:subject" element={<Home />} />
         <Route path="/services/:service" element={<Home />} />
         <Route path="/blog/:blogId" element={<BlogPage />} />
-<<<<<<< HEAD
+
         <Route path="/verify-email/:verificationToken" element={<VerifyEmail />} />
-=======
->>>>>>> 84d0d0fbe96aae7d8cd6a48ca1d41a389c33b7f7
       </Routes>
       <Footer />
     </BrowserRouter>
