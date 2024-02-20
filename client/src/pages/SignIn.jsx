@@ -60,13 +60,18 @@ const SignIn = () => {
               </span>
               Name
             </Link> */}
-            <Link to="/" className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2">
+            <Link
+              to="/"
+              className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2"
+            >
               <img
-                src="/asset/logo.png"
+                src="/asset/logo.jpg"
                 alt="Home"
-                className="w-24 h-auto md:h-full"
+                className="w-36 h-auto md:h-full rounded-full"
               />
-              <p>MAPhelp</p>
+              <p className="text-2xl text-blue-800">
+                MyAssignmentAndProjectHelp
+              </p>
             </Link>
             <div>
               <p className="text-2xl text-blue-800 mt-5">

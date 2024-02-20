@@ -58,13 +58,18 @@ const SignUp = () => {
       <div className="w-10/12">
         <div className="flex p-3 w-9/12 sm:w-11/12 mx-auto flex-col md:flex-row md:items-center gap-20 py-20">
           <div className="flex-1">
-            <Link to="/" className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2">
+            <Link
+              to="/"
+              className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2"
+            >
               <img
-                src="/asset/logo.png"
+                src="/asset/logo.jpg"
                 alt="Home"
-                className="w-24 h-auto md:h-full"
+                className="w-36 h-auto md:h-full rounded-full"
               />
-              <p>MAPhelp</p>
+              <p className="text-2xl text-blue-800">
+                MyAssignmentAndProjectHelp
+              </p>
             </Link>
             <p className="text-2xl text-blue-800 mt-5">
               Welcome to our signup page! Ready to join our community? Sign up
@@ -151,7 +156,8 @@ const SignUp = () => {
             )}
             {verificationSent && (
               <Alert className="mt-5" color="success">
-                Verification email sent successfully. Please check your email inbox.
+                Verification email sent successfully. Please check your email
+                inbox.
               </Alert>
             )}
           </div>

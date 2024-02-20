@@ -40,18 +40,20 @@ const Header = () => {
     >
       <Link
         to="/"
-        className=" whitespace-nowrap text-sm sm:text-xl font-semibold gap-2 flex items-center justify-center"
+        className="whitespace-nowrap text-sm sm:text-xl font-semibold gap-2 flex items-center justify-center "
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         {/* <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white mr-2">
           Logo
         </span> */}
         <img
-          src="/asset/logo.png"
+          src="/asset/logo.jpg"
           alt="Home"
-          className="w-10 h-auto md:h-full"
+          className="w-14 h-auto md:h-full rounded-full"
         />
-        <p>MAPhelp</p>
+        <p className="text-lg text-blue-800 hidden xl:block">
+          MyAssignmentAndProjectHelp
+        </p>
       </Link>
 
       <div className="flex gap-4 lg:order-2 items-center">
