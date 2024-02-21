@@ -32,7 +32,7 @@ export const signup = async (req, res, next) => {
   }
 
   const token = crypto.randomBytes(20).toString("hex");
-  const verificationLink = `http://localhost:5173/verify-email/${token}`;
+  const verificationLink = `${process.env.VERIFICATION_LINK}${token}`;
 
   formData = {
     token,

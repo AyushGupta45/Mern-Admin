@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
-import { HiMail, HiLockClosed, HiUserCircle } from "react-icons/hi";
+import {
+  HiMail,
+  HiLockClosed,
+  HiUserCircle,
+  HiEye,
+  HiEyeOff,
+} from "react-icons/hi";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -9,6 +15,11 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false); // New state to track if verification email is sent
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -53,14 +64,15 @@ const SignUp = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-blue-100 flex justify-center ">
       <div className="w-10/12">
-        <div className="flex p-3 w-9/12 sm:w-11/12 mx-auto flex-col md:flex-row md:items-center gap-20 py-20">
-          <div className="flex-1">
+        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col xl:flex-row items-center gap-20 py-20">
+          <div className="w-full">
             <Link
               to="/"
-              className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2"
+              className="font-bold text-4xl flex justify-center items-center gap-2"
             >
               <img
                 src="/assets/logo.jpg"
@@ -79,7 +91,7 @@ const SignUp = () => {
             </p>
           </div>
 
-          <div className="flex-1">
+          <div className="w-full">
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <div>
                 <Label value="Your Username" />
@@ -118,15 +130,25 @@ const SignUp = () => {
               </div>
               <div>
                 <Label value="Your Password" />
-                <TextInput
-                  type="password"
-                  icon={HiLockClosed}
-                  placeholder="Password"
-                  id="password"
-                  autoComplete="off"
-                  required
-                  onChange={handleChange}
-                />
+                <div className="relative flex items-center">
+                  <TextInput
+                    className="flex-1"
+                    type={showPassword ? "text" : "password"}
+                    icon={HiLockClosed}
+                    placeholder="Password"
+                    id="password"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800 cursor-pointer"
+                  >
+                    {showPassword ? <HiEyeOff /> : <HiEye />}
+                  </button>
+                </div>
               </div>
               <Button
                 gradientDuoTone="purpleToPink"

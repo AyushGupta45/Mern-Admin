@@ -8,13 +8,18 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
-import { HiMail, HiLockClosed } from "react-icons/hi";
+import { HiMail, HiLockClosed, HiEye, HiEyeOff } from "react-icons/hi";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,19 +55,13 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-100 flex justify-center  ">
+    <div className="min-h-screen bg-blue-100 flex justify-center ">
       <div className="w-10/12">
-        <div className="flex p-3 w-9/12 sm:w-11/12 mx-auto flex-col md:flex-row md:items-center gap-20 py-20">
-          <div className="flex-1">
-            {/* <Link to="/" className="font-bold dark:text-white text-4xl">
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white mr-2">
-                Logo
-              </span>
-              Name
-            </Link> */}
+        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col xl:flex-row items-center gap-20 py-20">
+          <div className="w-full">
             <Link
               to="/"
-              className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2"
+              className="font-bold text-4xl flex justify-center items-center gap-2"
             >
               <img
                 src="/assets/logo.jpg"
@@ -87,7 +86,7 @@ const SignIn = () => {
             </div>
           </div>
 
-          <div className="flex-1">
+          <div className="w-full">
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <div>
                 <Label value="Your Email" />
@@ -102,14 +101,25 @@ const SignIn = () => {
               </div>
               <div>
                 <Label value="Your Password" />
-                <TextInput
-                  type="password"
-                  icon={HiLockClosed}
-                  placeholder="Password"
-                  id="password"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
+                <div className="relative flex items-center">
+                  <TextInput
+                    className="flex-1"
+                    type={showPassword ? "text" : "password"}
+                    icon={HiLockClosed}
+                    placeholder="Password"
+                    id="password"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800 cursor-pointer"
+                  >
+                    {showPassword ? <HiEyeOff /> : <HiEye />}
+                  </button>
+                </div>
               </div>
               <Button
                 gradientDuoTone="purpleToPink"
