@@ -6,6 +6,7 @@ import { app } from "../firebase";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const OAuth = () => {
   const auth = getAuth(app);
@@ -28,9 +29,12 @@ const OAuth = () => {
       const data = await res.json();
       if (res.ok) {
         dispatch(signInSuccess(data));
+        toast.success("Sign in successful!");
         navigate("/");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (

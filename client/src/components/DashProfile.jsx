@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, ModalBody, TextInput } from "flowbite-react";
+import { Button, Modal,  TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -26,16 +26,14 @@ import {
   HiLockClosed,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function DashProfile() {
-  const { currentUser, error, loading } = useSelector((state) => state.user);
+  const { currentUser,  loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
-  const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
-  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
-  const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
@@ -55,8 +53,6 @@ export default function DashProfile() {
   }, [imageFile]);
 
   const uploadImage = async () => {
-    setImageFileUploading(true);
-    setImageFileUploadError(null);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
@@ -69,10 +65,8 @@ export default function DashProfile() {
 
         setImageFileUploadProgress(progress.toFixed(0));
       },
-      (error) => {
-        setImageFileUploadError(
-          "Could not upload image (File must be less than 2MB)"
-        );
+      () => {
+        toast.error("Could not upload image (File must be less than 2MB)");
         setImageFileUploadProgress(null);
         setImageFile(null);
         setImageFileUrl(null);
@@ -82,7 +76,7 @@ export default function DashProfile() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
-          setImageFileUploading(false);
+          toast.success("Image Uploaded successfully!");
         });
       }
     );
@@ -94,9 +88,10 @@ export default function DashProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     if (Object.keys(formData).length == 0) {
-      setImageFileUploadError("No changes made");
+      toast.error("No changes made");
       return;
     }
 
@@ -112,14 +107,14 @@ export default function DashProfile() {
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
+        toast.error(data.message);
       } else {
         dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
+        toast.success("Profile Updated Successfully");
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message);
+      toast.error("Failed to Update Profile");
     }
   };
 
@@ -133,11 +128,14 @@ export default function DashProfile() {
       const data = await res.json();
       if (!res.ok) {
         dispatch(deleteUserFailure(data.message));
+        toast.error(data.message);
       } else {
         dispatch(deleteUserSuccess(data));
+        toast.success("User Deleted Successfully");
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+      toast.error("Failed to Delete User");
     }
   };
 
@@ -148,15 +146,19 @@ export default function DashProfile() {
       });
       const data = await res.json();
       if (!res.ok) {
+        toast.error(data.message);
       } else {
         dispatch(signoutSuccess());
+        toast.success("Signed Out Successfully");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Failed to Sign Out");
+    }
   };
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full ">
-      <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
+      <h1 className="text-4xl font-bold text-blue-900 text-center my-4">Profile</h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
@@ -201,9 +203,7 @@ export default function DashProfile() {
             }`}
           />
         </div>
-        {imageFileUploadError && (
-          <Alert color="failure">{imageFileUploadError}</Alert>
-        )}
+
         <TextInput
           type="text"
           id="username"
@@ -260,6 +260,7 @@ export default function DashProfile() {
               type="button"
               gradientDuoTone="purpleToPink"
               className="w-full"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               Upload Your Assignment
             </Button>
@@ -274,24 +275,6 @@ export default function DashProfile() {
           Sign Out
         </span>
       </div>
-
-      {updateUserSuccess && (
-        <Alert color="success" className="mt-5">
-          {updateUserSuccess}
-        </Alert>
-      )}
-
-      {updateUserError && (
-        <Alert color="failure" className="mt-5">
-          {updateUserError}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert color="failure" className="mt-5">
-          {error}
-        </Alert>
-      )}
 
       <Modal
         show={showModal}

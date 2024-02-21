@@ -5,6 +5,7 @@ import { signoutSuccess } from "../redux/user/userSlice";
 import DropdownSub from "./Dropdown";
 import DropdownServices from "./DropdowServices";
 import { headerTheme } from "../custometheme";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const scrollToElement = (elementId) => {
@@ -29,6 +30,7 @@ const Header = () => {
       if (!res.ok) {
       } else {
         dispatch(signoutSuccess());
+        toast.success("User Signed Out");
       }
     } catch (error) {}
   };
@@ -199,6 +201,15 @@ const Header = () => {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <Link to="/create-blogs">Create Blog</Link>
+          </Navbar.Link>
+
+          <Navbar.Link
+            active={path === "/expert-registration"}
+            as={"div"}
+            className="font-bold text-md lg:text-lg"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <Link to="/expert-registration">Register an Expert</Link>
           </Navbar.Link>
         </Navbar.Collapse>
       ) : null}

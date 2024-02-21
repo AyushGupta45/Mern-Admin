@@ -6,6 +6,7 @@ import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
 } from "react-icons/io5";
+import { toast } from "react-hot-toast";
 
 const DashAssignments = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -25,9 +26,11 @@ const DashAssignments = () => {
         if (res.ok) {
           setUserAssignments(data.assignments);
         } else {
-          console.error(`Error fetching assignments: ${data.message}`);
+          toast.error(`Error fetching assignments: ${data.message}`);
         }
-      } catch (error) {}
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
 
     if (currentUser.isAdmin) {
@@ -76,10 +79,10 @@ const DashAssignments = () => {
           )
         );
       } else {
-        console.error(`Error updating approval status: ${data.message}`);
+        toast.error(`Error updating approval status: ${data.message}`);
       }
     } catch (error) {
-      console.error("Error updating approval status:", error);
+      toast.error("Error updating approval status:", error);
     }
   };
 
@@ -106,10 +109,10 @@ const DashAssignments = () => {
           )
         );
       } else {
-        console.error(`Error updating denial status: ${data.message}`);
+        toast.error(`Error updating denial status: ${data.message}`);
       }
     } catch (error) {
-      console.error("Error updating denial status:", error);
+      toast.error("Error updating denial status:", error);
     }
   };
 

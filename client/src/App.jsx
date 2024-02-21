@@ -15,12 +15,15 @@ import BlogPage from "./pages/BlogPage";
 import BlogsUser from "./components/BlogsUser";
 import Expert from "./pages/Expert";
 import VerifyEmail from "./pages/Verify";
+import ToasterProvider from "./components/Toast";
+import ExpertRegForm from "./components/ExpertRegForm";
 
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
+      <ToasterProvider/>
       <Whatappicon/>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -36,6 +39,7 @@ const App = () => {
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-blogs" element={<CreateBlogs />} />
           <Route path="/update-blog/:blogId" element={<UpdateBlogs />} />
+          <Route path="/expert-registration" element={<ExpertRegForm />} />
         </Route>
         <Route path="/upload" element={<Home />} />
         <Route path="/subjects/:subject" element={<Home />} />

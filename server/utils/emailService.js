@@ -19,7 +19,6 @@ export async function sendVerificationEmail(email, verificationLink) {
     try {
       await transporter.sendMail(mailOptions);
     } catch (error) {
-      console.error("Error sending verification email:", error);
       throw new Error("Error sending verification email");
     }
   }

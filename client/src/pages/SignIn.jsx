@@ -1,18 +1,15 @@
-import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
+import { Button, Label, TextInput, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../redux/user/userSlice";
+import { signInStart, signInSuccess } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 import { HiMail, HiLockClosed, HiEye, HiEyeOff } from "react-icons/hi";
+import { toast } from "react-hot-toast";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +19,11 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -32,7 +33,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return dispatch(signInFailure("Please fill all the filds"));
+      return toast.error("Please fill all the fields");
     }
     try {
       dispatch(signInStart());
@@ -43,19 +44,21 @@ const SignIn = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        dispatch(signInFailure(data.message));
+        toast.error(data.message);
       }
       if (res.ok) {
         dispatch(signInSuccess(data));
+        toast.success("Sign in successful!");
         navigate("/");
       }
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      toast.error(error.message);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-blue-100 flex justify-center ">
+    <div className="min-h-screen bg-blue-100 flex justify-center">
       <div className="w-10/12">
         <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col xl:flex-row items-center gap-20 py-20">
           <div className="w-full">
@@ -143,11 +146,6 @@ const SignIn = () => {
                 Sign Up
               </Link>
             </div>
-            {errorMessage && (
-              <Alert className="mt-5" color="failure">
-                {errorMessage}
-              </Alert>
-            )}
           </div>
         </div>
       </div>

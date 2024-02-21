@@ -7,6 +7,7 @@ import reviewRoutes from "./routes/review.route.js";
 import cookieParser from "cookie-parser";
 import uploadRoutes from "./routes/upload.route.js";
 import blogRoutes from "./routes/blog.route.js";
+import expertRoutes from "./routes/expert.route.js"
 import path from "path";
 
 dotenv.config();
@@ -17,7 +18,7 @@ mongoose
     console.log("MongoDb is connected");
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err.message);
   });
 
 const __dirname = path.resolve();
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/reg", expertRoutes);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

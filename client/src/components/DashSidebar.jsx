@@ -8,13 +8,12 @@ import {
   MdClear,
   MdEditDocument,
 } from "react-icons/md";
-import { IoMdAnalytics } from "react-icons/io";
-import { ImCross } from "react-icons/im";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { sidebarTheme } from "../custometheme";
+import toast from "react-hot-toast";
 
 const DashSidebar = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -38,6 +37,7 @@ const DashSidebar = () => {
       if (!res.ok) {
       } else {
         dispatch(signoutSuccess());
+        toast.success("User Signed Out")
       }
     } catch (error) {}
   };

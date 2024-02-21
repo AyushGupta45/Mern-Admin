@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
+import { Button, Label, TextInput, Spinner } from "flowbite-react";
 import {
   HiMail,
   HiLockClosed,
@@ -8,10 +8,10 @@ import {
   HiEye,
   HiEyeOff,
 } from "react-icons/hi";
+import { toast } from "react-hot-toast";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false); // New state to track if verification email is sent
   const navigate = useNavigate();
@@ -20,9 +20,13 @@ const SignUp = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -37,11 +41,10 @@ const SignUp = () => {
       !formData.email ||
       !formData.password
     ) {
-      return setErrorMessage("Please fill out all fields.");
+      return toast.error("Please fill out all fields.");
     }
     try {
       setLoading(true);
-      setErrorMessage(null);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,19 +54,21 @@ const SignUp = () => {
       setLoading(false);
 
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        return toast.error(data.message);
       }
 
       if (res.ok) {
         setVerificationSent(true);
+        toast.success(
+          "Verification email sent successfully. Please check your email inbox."
+        );
         navigate("/sign-in");
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      toast.error(error.message);
       setLoading(false);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-blue-100 flex justify-center ">
@@ -101,7 +106,6 @@ const SignUp = () => {
                   placeholder="Username"
                   id="username"
                   autoComplete="off"
-                  required
                   onChange={handleChange}
                 />
               </div>
@@ -112,7 +116,6 @@ const SignUp = () => {
                   placeholder="PhoneNumber"
                   id="phonenumber"
                   autoComplete="off"
-                  required
                   onChange={handleChange}
                 />
               </div>
@@ -124,7 +127,6 @@ const SignUp = () => {
                   placeholder="Email"
                   id="email"
                   autoComplete="off"
-                  required
                   onChange={handleChange}
                 />
               </div>
@@ -139,7 +141,6 @@ const SignUp = () => {
                     id="password"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   />
                   <button
                     type="button"
@@ -171,17 +172,10 @@ const SignUp = () => {
                 Sign In
               </Link>
             </div>
-            {errorMessage && (
-              <Alert className="mt-5" color="failure">
-                {errorMessage}
-              </Alert>
-            )}
-            {verificationSent && (
-              <Alert className="mt-5" color="success">
-                Verification email sent successfully. Please check your email
-                inbox.
-              </Alert>
-            )}
+            {verificationSent &&
+              toast.success(
+                "Verification email sent successfully. Please check your email inbox."
+              )}
           </div>
         </div>
       </div>

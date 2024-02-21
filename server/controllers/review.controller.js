@@ -1,6 +1,6 @@
 import Review from "../models/review.modal.js";
 
-export const review = async (req, res, next) => {
+export const review = async (req, res) => {
   const { stars, description, userId } = req.body;
 
   try {
@@ -12,7 +12,6 @@ export const review = async (req, res, next) => {
     await newReview.save();
     res.status(201).json({ message: "Review added successfully" });
   } catch (error) {
-    console.error("Error adding review:", error);
     res.status(500).json({ error: "Failed to add review" });
   }
 };
@@ -25,7 +24,6 @@ export const getreviews = async (req, res, next) => {
       .populate("userId", "username");
     res.status(200).json({ reviews });
   } catch (e) {
-    console.error("Error fetching reviews:", error);
     res.status(500).json({ error: "Failed to fetch reviews" });
   }
 };

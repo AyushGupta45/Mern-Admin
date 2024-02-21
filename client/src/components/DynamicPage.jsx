@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FileInput,
-  Select,
-  TextInput,
-  Label,
-  Button,
-  Alert,
-} from "flowbite-react";
+import { FileInput, Select, TextInput, Button } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -18,6 +11,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { subjectsInfo } from "../constants";
+import { toast } from "react-hot-toast";
 
 const DynamicPage = () => {
   let { subject } = useParams();
@@ -36,29 +30,28 @@ const DynamicPage = () => {
 
   const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
-  const [fileUploadError, setFileUploadError] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [publishError, setPublishError] = useState(null);
-  const [publishSuccess, setPublishSuccess] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   }, []);
 
   const handleUploadFile = async () => {
     if (!currentUser) {
-      setFileUploadError("You must be logged in");
+      toast.error("You must be logged in");
       navigate("/sign-in");
       return;
     }
-
     try {
       if (!file) {
-        setFileUploadError("Please Upload File");
+        toast.error("Please Upload File");
         return;
       }
-      setFileUploadError(null);
 
       const storage = getStorage(app);
       const fileName = new Date().getTime() + "-" + file.name;
@@ -69,28 +62,34 @@ const DynamicPage = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
           setFileUploadProgress(progress.toFixed(0));
         },
         (error) => {
-          setFileUploadError("Image upload failed");
+          toast.error("Image upload failed");
           setFileUploadProgress(null);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
-            setFileUploadError(null);
             setFormData({ ...formData, uploadLink: downloadURL });
+            toast.success("File uploaded successfully!");
           });
         }
       );
     } catch (error) {
-      setFileUploadError("File Upload failed");
+      toast.error("File Upload failed");
       setFileUploadProgress(null);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      toast.error("You must be logged in");
+      navigate("/sign-in");
+      return;
+    }
     try {
       const res = await fetch("/api/upload/create", {
         method: "POST",
@@ -101,96 +100,104 @@ const DynamicPage = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        toast.error(data.message);
         return;
       }
       if (res.ok) {
-        setPublishError(null);
-        setPublishSuccess("Assignment published successfully!");
+        toast.success("Assignment published successfully!");
       }
     } catch (error) {
-      setPublishError("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
   return (
-    <div className="bg-blue-100 flex justify-center items-center py-8 px-8 lg:px-16">
-      <div className="container mx-auto flex flex-col justify-center items-center lg:flex-row gap-x-8">
-        <div className="w-full lg:w-1/2 h-auto md:h-full px-4 lg:px-8">
-          <div className="flex flex-col justify-center items-center my-10 lg:my-14 w-full">
-            <h1 className="text-4xl font-bold text-blue-900 mb-4 text-center">
-              {capitalizedSubject}
-            </h1>
-            <p className="text-xl text-blue-800 text-start">{description}</p>
+    <div>
+      <div>
+        <img
+          src="/assets/559.jpg"
+          alt="Home"
+          className="w-full md:w-9/12 lg:w-1/2 h-auto mix-blend-multiply m-auto"
+        />
+      </div>
+      <div className="w-full flex justify-center items-center p-4">
+        <div className="container mx-auto flex flex-col justify-center items-center lg:flex-row gap-4">
+          <div className="w-full lg:w-1/2 h-auto md:h-full">
+            <div className="flex flex-col justify-center items-center my-10 lg:my-14 w-full">
+              <h1 className="text-4xl font-bold text-blue-900 mb-4 text-center">
+                {capitalizedSubject}
+              </h1>
+              <p className="text-xl text-blue-800 text-start">{description}</p>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center p-4 lg:p-16 w-full lg:w-1/2">
-          <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-4 justify-between">
-              <TextInput
-                type="text"
-                placeholder="Type your Question"
-                required
-                id="title"
-                className="w-full"
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-              />
-              <Select
-                id="select"
-                disabled
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
-                className="w-full"
-              >
-                <option value="Biology">{capitalizedSubject}</option>
-              </Select>
-            </div>
-            {/* Upload */}
-            <div className="flex flex-col gap-4 items-start sm:items-center sm:flex-row sm:justify-between">
-              <FileInput
-                id="upload"
-                type="file"
-                accept=".pdf, .doc, .docx"
-                onChange={(e) => setFile(e.target.files[0])}
-                className="w-full sm:w-auto"
-              />
-              <Button
-                type="button"
-                gradientDuoTone="purpleToBlue"
-                size="sm"
-                outline
-                onClick={handleUploadFile}
-                disabled={fileUploadProgress}
-                className="w-full sm:w-auto"
-              >
-                {fileUploadProgress ? (
-                  <div className="w-16 h-16">
-                    <CircularProgressbar
-                      value={fileUploadProgress}
-                      text={`${fileUploadProgress || 0}%`}
-                    />
-                  </div>
-                ) : (
-                  "Upload"
-                )}
-              </Button>
-            </div>
-            {fileUploadError && (
-              <Alert color="failure">{fileUploadError}</Alert>
-            )}
-            <Button
-              type="submit"
-              gradientDuoTone="purpleToPink"
-              className="w-full"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center p-4 w-full lg:w-1/2">
+            <form
+              className="flex flex-col gap-4 w-full"
+              onSubmit={handleSubmit}
             >
-              Submit Assignment
-            </Button>
-            {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
-            {publishError && <Alert color="failure">{publishError}</Alert>}
-          </form>
+              <div className="flex flex-col gap-4 justify-between">
+                <TextInput
+                  type="text"
+                  placeholder="Type your Question"
+                  required
+                  id="title"
+                  className="w-full"
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                />
+                <Select
+                  id="select"
+                  disabled
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  className="w-full"
+                >
+                  <option value="Biology">{capitalizedSubject}</option>
+                </Select>
+              </div>
+
+              {/* Upload */}
+              <div className="flex flex-col gap-4 items-start sm:items-center sm:flex-row sm:justify-between">
+                <FileInput
+                  id="upload"
+                  type="file"
+                  accept=".pdf, .doc, .docx"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="w-full sm:w-auto"
+                />
+                <Button
+                  type="button"
+                  gradientDuoTone="purpleToBlue"
+                  size="sm"
+                  outline
+                  onClick={handleUploadFile}
+                  disabled={fileUploadProgress}
+                  className="w-full sm:w-auto"
+                >
+                  {fileUploadProgress ? (
+                    <div className="w-16 h-16">
+                      <CircularProgressbar
+                        value={fileUploadProgress}
+                        text={`${fileUploadProgress || 0}%`}
+                      />
+                    </div>
+                  ) : (
+                    "Upload"
+                  )}
+                </Button>
+              </div>
+
+              <Button
+                type="submit"
+                gradientDuoTone="purpleToPink"
+                className="w-full"
+              >
+                Submit Assignment
+              </Button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

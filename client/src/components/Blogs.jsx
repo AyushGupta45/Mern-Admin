@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { toast } from "react-hot-toast";
+
 
 const Blogs = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,7 +23,7 @@ const Blogs = () => {
           setUserPosts(data.blogs);
         }
       } catch (error) {
-        console.log(error.message);
+        toast.error(error.message);
       }
     };
     if (currentUser.isAdmin) {
@@ -40,14 +42,14 @@ const Blogs = () => {
       );
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message);
+        toast.error(data.message);
       } else {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== postIdToDelete)
         );
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 

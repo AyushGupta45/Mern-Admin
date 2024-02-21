@@ -2,6 +2,7 @@ import { Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 const DashAdminApproved = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,7 +22,7 @@ const DashAdminApproved = () => {
         if (res.ok) {
           setUserAssignments(data.assignments);
         } else {
-          console.error(`Error fetching assignments: ${data.message}`);
+          toast.error(`Error fetching assignments: ${data.message}`);
         }
       } catch (error) {}
     };
@@ -54,10 +55,10 @@ const DashAdminApproved = () => {
           )
         );
       } else {
-        console.error(`Error updating completion status: ${data.message}`);
+        toast.error(`Error updating completion status: ${data.message}`);
       }
     } catch (error) {
-      console.error("Error updating completion status:", error);
+      toast.error("Error updating completion status:", error);
     }
   };
 

@@ -1,6 +1,7 @@
 import { Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const DashApproved = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -25,9 +26,11 @@ const DashApproved = () => {
           );
           setUserAssignments(filteredAssignments);
         } else {
-          console.error(`Error fetching assignments: ${data.message}`);
+          toast.error(`Error fetching assignments: ${data.message}`);
         }
-      } catch (error) {}
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
 
     if (currentUser) {

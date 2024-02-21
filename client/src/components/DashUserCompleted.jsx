@@ -2,6 +2,7 @@ import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 const DashUserCompleted = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -26,7 +27,7 @@ const DashUserCompleted = () => {
           );
           setUserAssignments(filteredAssignments);
         } else {
-          console.error(`Error fetching assignments: ${data.message}`);
+          toast.error(`Error fetching assignments: ${data.message}`);
         }
       } catch (error) {}
     };

@@ -9,8 +9,23 @@ import { Link } from "react-router-dom";
 export default function FooterCom() {
   return (
     <div className="bg-blue-200 py-6 gap-4 overflow-hidden">
-      <div className="w-full max-w-4xl mx-auto flex flex-col justify-center items-center">
-        <div className="flex justify-center items-center gap-8">
+      <div className="w-full mx-auto flex flex-col justify-center items-center">
+        <div>
+          <Link
+            to="/"
+            className="font-bold text-4xl flex flex-col justify-center items-center gap-2"
+          >
+            <img
+              src="/assets/logo.jpg"
+              alt="Home"
+              className="w-36 h-auto md:h-full rounded-full"
+            />
+            <p className="text-3xl text-black">MyAssignmentAndProjectHelp</p>
+          </Link>
+        </div>
+        <hr className="w-full border border-gray-800 my-6" />
+
+        <div className="flex justify-center items-center gap-20">
           <div>
             <a href="#" className="text-black text-lg">
               <FaFacebookSquare size={30} />
@@ -32,14 +47,17 @@ export default function FooterCom() {
             </a>
           </div>
         </div>
+        <hr className="w-full border border-gray-800 my-6" />
 
-        <div className="text-lg text-black mt-4 m-auto">
+        <div className="text-lg text-black m-auto">
           <p className="tracking-widest text-center">
-            &#169; {new Date().getFullYear()} {`Name Pivate Limited`}
+            &#169; {new Date().getFullYear()}{" "}
+            {`MyAssignmentAndProjectHelp Pivate Limited`}
           </p>
         </div>
+        <hr className="w-full border border-gray-800 my-6" />
 
-        <div className="text-md font-bold text-black mt-4 gap-x-10 gap-y-4 grid grid-cols-2 md:grid-cols-4">
+        <div className="text-md font-bold text-black gap-x-10 gap-y-4 grid grid-cols-2 md:grid-cols-4">
           <Link
             to="#"
             className="hover:underline m-auto"

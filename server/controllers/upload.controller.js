@@ -85,7 +85,6 @@ export const updateApprovalStatus = async (req, res) => {
         updatedAssignment,
       });
   } catch (error) {
-    console.error("Error updating approval status:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -111,7 +110,6 @@ export const denyApprovalStatus = async (req, res) => {
         updatedAssignment,
       });
   } catch (error) {
-    console.error("Error updating approval status:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -136,7 +134,6 @@ export const completeStatus = async (req, res) => {
         updatedAssignment,
       });
   } catch (error) {
-    console.error("Error updating approval status:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

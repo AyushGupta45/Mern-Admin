@@ -1,11 +1,4 @@
-import {
-  FileInput,
-  Select,
-  TextInput,
-  Label,
-  Button,
-  Alert,
-} from "flowbite-react";
+import { FileInput, TextInput, Label, Button } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -21,15 +14,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const UpdateBlogs = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
-  const [fileUploadError, setFileUploadError] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [publishError, setPublishError] = useState(null);
-  const [publishSuccess, setPublishSuccess] = useState(null);
   const { blogId } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -40,12 +31,10 @@ const UpdateBlogs = () => {
         );
         const data = await res.json();
         if (!res.ok) {
-          console.log(data.message);
-          setPublishError(data.message);
+          toast.error(data.message);
           return;
         }
         if (res.ok) {
-          setPublishError(null);
           const currentblog = data.blogs.filter((blog) => blog._id === blogId);
           setFormData(currentblog[0]);
         }
@@ -53,22 +42,21 @@ const UpdateBlogs = () => {
 
       fetchPost();
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   }, [blogId]);
 
   const handleUploadFile = async () => {
     if (!currentUser) {
-      setFileUploadError("You must be logged in");
+      toast.error("You must be logged in");
       navigate("/sign-in");
       return;
     }
     try {
       if (!file) {
-        setFileUploadError("Please Upload File");
+        toast.error("Please Upload File");
         return;
       }
-      setFileUploadError(null);
 
       const storage = getStorage(app);
       const fileName = new Date().getTime() + "-" + file.name;
@@ -82,26 +70,42 @@ const UpdateBlogs = () => {
 
           setFileUploadProgress(progress.toFixed(0));
         },
-        (error) => {
-          setFileUploadError("Image upload failed");
+        () => {
+          toast.error("Image upload failed");
           setFileUploadProgress(null);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
-            setFileUploadError(null);
             setFormData({ ...formData, uploadLink: downloadURL });
+            toast.success("File uploaded successfully!");
           });
         }
       );
     } catch (error) {
-      setFileUploadError("File Upload failed");
+      toast.error("File Upload failed");
       setFileUploadProgress(null);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      toast.error("You must be logged in");
+      navigate("/sign-in");
+      return;
+    }
+
+    const changesMade =
+      formData.title === "" ||
+      formData.uploadLink === "" ||
+      formData.content === "";
+
+    if (!changesMade) {
+      toast.error("No changes made");
+      return;
+    }
+
     try {
       const res = await fetch(
         `/api/blogs/updateblog/${formData._id}/${currentUser._id}`,
@@ -115,15 +119,15 @@ const UpdateBlogs = () => {
       );
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        toast.error(data.message);
         return;
       }
       if (res.ok) {
-        setPublishError(null);
-        setPublishSuccess("Blog Posted successfully!");
+        toast.success("Blog Updated successfully!");
+        navigate("/dashboard?tab=blogs");
       }
     } catch (error) {
-      setPublishError("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
@@ -183,9 +187,6 @@ const UpdateBlogs = () => {
                 </Button>
               </div>
             </div>
-            {fileUploadError && (
-              <Alert color="failure">{fileUploadError}</Alert>
-            )}
             {formData && formData.uploadLink && (
               <div className="border border-gray-300 rounded-md p-4 mt-2 bg-white">
                 <img
@@ -204,15 +205,9 @@ const UpdateBlogs = () => {
                 setFormData({ ...formData, content: value });
               }}
             />
-            {fileUploadError && (
-              <Alert color="failure">{fileUploadError}</Alert>
-            )}
             <Button type="submit" gradientDuoTone="purpleToPink">
               Update Blog
             </Button>
-
-            {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
-            {publishError && <Alert color="failure">{publishError}</Alert>}
           </form>
         </div>
       </div>

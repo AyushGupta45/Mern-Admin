@@ -3,6 +3,8 @@ import { cardData } from "../constants";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+
 
 const Cards = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,7 +12,9 @@ const Cards = () => {
 
   const handleNavigate = () => {
     if (!currentUser) {
-      return navigate("/sign-in");
+      navigate("/sign-in");
+      toast.error("You must be logged in");
+      return
     } else {
       navigate("/upload");
     }

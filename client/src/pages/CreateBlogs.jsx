@@ -1,10 +1,8 @@
 import {
   FileInput,
-  Select,
   TextInput,
   Label,
   Button,
-  Alert,
 } from "flowbite-react";
 import {
   getDownloadURL,
@@ -20,29 +18,26 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const CreateBlogs = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
-  const [fileUploadError, setFileUploadError] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [publishError, setPublishError] = useState(null);
-  const [publishSuccess, setPublishSuccess] = useState(null);
   const navigate = useNavigate();
 
   const handleUploadFile = async () => {
     if (!currentUser) {
-      setFileUploadError("You must be logged in");
+      toast.error("You must be logged in");
       navigate("/sign-in");
       return;
     }
     try {
       if (!file) {
-        setFileUploadError("Please Upload File");
+        toast.error("Please Upload File");
         return;
       }
-      setFileUploadError(null);
 
       const storage = getStorage(app);
       const fileName = new Date().getTime() + "-" + file.name;
@@ -56,26 +51,31 @@ const CreateBlogs = () => {
 
           setFileUploadProgress(progress.toFixed(0));
         },
-        (error) => {
-          setFileUploadError("Image upload failed");
+        () => {
+          toast.error("Image upload failed");
           setFileUploadProgress(null);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
-            setFileUploadError(null);
             setFormData({ ...formData, uploadLink: downloadURL });
+            toast.success("Image uploaded successfully!");
           });
         }
       );
     } catch (error) {
-      setFileUploadError("File Upload failed");
+      toast.error("File Upload failed");
       setFileUploadProgress(null);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      toast.error("You must be logged in");
+      navigate("/sign-in");
+      return;
+    }
     try {
       const res = await fetch("/api/blogs/create-blog", {
         method: "POST",
@@ -86,22 +86,21 @@ const CreateBlogs = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        toast.error(data.message);
         return;
       }
       if (res.ok) {
-        setPublishError(null);
-        setPublishSuccess("Blog Posted successfully!");
+        toast.success("Blog Created successfully!");
       }
     } catch (error) {
-      setPublishError("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
   return (
     <div className="bg-blue-100">
       <div className="p-3 max-w-3xl mx-auto ">
-        <h1 className="text-center text-3xl my-7 font-semibold">
+        <h1 className="text-4xl mb-4 font-bold text-blue-900 text-center my-4">
           Create a Blog
         </h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -152,7 +151,6 @@ const CreateBlogs = () => {
               </Button>
             </div>
           </div>
-          {fileUploadError && <Alert color="failure">{fileUploadError}</Alert>}
           {formData && formData.uploadLink && (
             <div className="border border-gray-300 rounded-md p-4 mt-2 bg-white">
               <img
@@ -170,13 +168,9 @@ const CreateBlogs = () => {
               setFormData({ ...formData, content: value });
             }}
           />
-          {fileUploadError && <Alert color="failure">{fileUploadError}</Alert>}
           <Button type="submit" gradientDuoTone="purpleToPink">
             Create Blog
           </Button>
-
-          {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
-          {publishError && <Alert color="failure">{publishError}</Alert>}
         </form>
       </div>
     </div>

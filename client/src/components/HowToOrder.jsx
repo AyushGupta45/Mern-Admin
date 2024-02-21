@@ -3,6 +3,7 @@ import { Button, Card } from "flowbite-react";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const HowToOrder = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,11 +11,14 @@ const HowToOrder = () => {
 
   const handleNavigate = () => {
     if (!currentUser) {
-      return navigate("/sign-in");
+      navigate("/sign-in");
+      toast.error("You must be logged in");
+      return;
     } else {
       navigate("/upload");
     }
   };
+  
   return (
     <div className="pb-8">
       <div className="mx-auto mb-8">

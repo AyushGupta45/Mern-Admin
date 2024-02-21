@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { FaStar } from "react-icons/fa";
 
 const Reviews = () => {
@@ -14,10 +15,10 @@ const Reviews = () => {
         if (res.ok) {
           setReviews(data.reviews);
         } else {
-          console.log("error fetching");
+          toast.error("error fetching");
         }
       } catch (e) {
-        console.error("Error fetching reviews:", e);
+        toast.error("Error fetching reviews:", e);
       }
     };
 

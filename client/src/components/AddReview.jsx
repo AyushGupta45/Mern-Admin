@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { Button, Textarea, Label, Alert } from "flowbite-react";
+import { Button, Textarea, Label } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const AddReview = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({ description: "", stars: 3 });
-  const [publishError, setPublishError] = useState(null);
-  const [publishSuccess, setPublishSuccess] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!currentUser) {
       navigate("/sign-in");
+      toast.error("You must be logged in");
       return;
     }
 
@@ -27,13 +27,12 @@ const AddReview = () => {
 
       if (res.ok) {
         setFormData({ description: "", stars: 3 });
-        setPublishError(null);
-        setPublishSuccess("Review Added successfully!");
+        toast.success("Review Added successfully!");
       } else {
-        setPublishError("Error Adding review");
+        toast.error("Error Creating Review");
       }
     } catch (error) {
-      console.log("Error:", error);
+      toast.error("Error:", error.message);
     }
   };
 
@@ -95,8 +94,6 @@ const AddReview = () => {
             Add Review
           </Button>
         </form>
-        {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
-        {publishError && <Alert color="failure">{publishError}</Alert>}
       </div>
     </>
   );

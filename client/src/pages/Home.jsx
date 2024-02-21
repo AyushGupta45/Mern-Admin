@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import Faq from "../components/Faq";
 import Prices from "../components/Prices";
 import DynamicPageServices from "../components/DynamicPageServices";
+import Experts from "../components/Experts";
 
 
 const Home = () => {
@@ -53,6 +54,8 @@ const Home = () => {
         {content}
         <hr className="my-8 border-t border-gray-400" />
         <Cards />
+        <hr className="my-8 border-t border-gray-400" />
+        <Experts />
         <hr className="my-8 border-t border-gray-400" />
         <AddReview />
         <hr className="my-8 border-t border-gray-400" />

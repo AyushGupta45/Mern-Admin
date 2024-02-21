@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -13,7 +14,7 @@ const BlogPage = () => {
         const res = await fetch(`/api/blogs/getblogs`);
         const data = await res.json();
         if (!res.ok) {
-          console.log(data.message);
+          toast.error(data.message);
           return;
         }
         if (res.ok) {
@@ -24,7 +25,7 @@ const BlogPage = () => {
 
       fetchPost();
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   }, [blogId]);
 

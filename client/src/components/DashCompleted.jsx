@@ -7,6 +7,7 @@ import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
 } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 const DashCompleted = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -26,9 +27,11 @@ const DashCompleted = () => {
         if (res.ok) {
           setUserAssignments(data.assignments);
         } else {
-          console.error(`Error fetching assignments: ${data.message}`);
+          toast.error(`Error fetching assignments: ${data.message}`);
         }
-      } catch (error) {}
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
 
     if (currentUser.isAdmin) {

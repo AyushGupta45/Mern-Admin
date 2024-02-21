@@ -4,6 +4,7 @@ import { Card, Button } from "flowbite-react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Prices = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -11,7 +12,9 @@ const Prices = () => {
 
   const handleNavigate = () => {
     if (!currentUser) {
-      return navigate("/sign-in");
+      navigate("/sign-in");
+      toast.error("You must be logged in");
+      return;
     } else {
       navigate("/upload");
     }

@@ -2,9 +2,7 @@ import {
   FileInput,
   Select,
   TextInput,
-  Label,
   Button,
-  Alert,
 } from "flowbite-react";
 import {
   getDownloadURL,
@@ -19,30 +17,27 @@ import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Options from "./Options";
+import { toast } from "react-hot-toast";
 
 const Content = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
-  const [fileUploadError, setFileUploadError] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [publishError, setPublishError] = useState(null);
-  const [publishSuccess, setPublishSuccess] = useState(null);
   const navigate = useNavigate();
 
   const handleUploadFile = async () => {
     if (!currentUser) {
-      setFileUploadError("You must be logged in");
+      toast.error("You must be logged in");
       navigate("/sign-in");
       return;
     }
     try {
       if (!file) {
-        setFileUploadError("Please Upload File");
+        toast.error("Please Upload File");
         return;
       }
-      setFileUploadError(null);
-
+ 
       const storage = getStorage(app);
       const fileName = new Date().getTime() + "-" + file.name;
       const storageRef = ref(storage, fileName);
@@ -56,19 +51,19 @@ const Content = () => {
           setFileUploadProgress(progress.toFixed(0));
         },
         (error) => {
-          setFileUploadError("Image upload failed");
+          toast.error("Image upload failed");
           setFileUploadProgress(null);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
-            setFileUploadError(null);
             setFormData({ ...formData, uploadLink: downloadURL });
+            toast.success("File uploaded successfully!");
           });
         }
       );
     } catch (error) {
-      setFileUploadError("File Upload failed");
+      toast.error("File Upload failed");
       setFileUploadProgress(null);
     }
   };
@@ -76,6 +71,7 @@ const Content = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!currentUser) {
+      toast.error("You must be logged in");
       navigate("/sign-in");
       return;
     }
@@ -89,15 +85,14 @@ const Content = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        toast.error(data.message);
         return;
       }
       if (res.ok) {
-        setPublishError(null);
-        setPublishSuccess("Assignment published successfully!");
+        toast.success("Assignment published successfully!");
       }
     } catch (error) {
-      setPublishError("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
@@ -164,12 +159,9 @@ const Content = () => {
               )}
             </Button>
           </div>
-          {fileUploadError && <Alert color="failure">{fileUploadError}</Alert>}
           <Button type="submit" gradientDuoTone="purpleToPink">
             Submit Assignment
           </Button>
-          {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
-          {publishError && <Alert color="failure">{publishError}</Alert>}
         </form>
       </div>
     </div>

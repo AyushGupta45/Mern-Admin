@@ -2,14 +2,13 @@ import { Table, Button, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const DashReviews = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [reviews, setReviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
-  console.log(reviews[0]);
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -20,10 +19,10 @@ const DashReviews = () => {
         if (res.ok) {
           setReviews(data.reviews);
         } else {
-          console.log("error fetching");
+          toast.error("error fetching");
         }
       } catch (e) {
-        console.error("Error fetching reviews:", e);
+        toast.error("Error fetching reviews:", e.message);
       }
     };
 
@@ -43,14 +42,14 @@ const DashReviews = () => {
       );
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message);
+        toast.error(data.message);
       } else {
         setReviews((prev) =>
           prev.filter((review) => review._id !== postIdToDelete)
         );
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 

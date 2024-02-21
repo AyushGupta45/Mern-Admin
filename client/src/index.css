@@ -31,6 +31,12 @@ body::-webkit-scrollbar-thumb-horizontal {
   border-radius: 50px;
 }
 
+@media (max-width: 640px) {
+  body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .ql-editor {
   font-size: 1.05rem;
   background-color: #fff;
@@ -78,7 +84,6 @@ body::-webkit-scrollbar-thumb-horizontal {
   background: rgba(255, 255, 255, 0.6); /* Adjust the opacity as needed */
   backdrop-filter: blur(8px); /* Adjust the blur effect as needed */
 }
-
 
 @tailwind base;
 @tailwind components;

@@ -2,8 +2,8 @@ import { Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const BlogsUser = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -19,7 +19,7 @@ const BlogsUser = () => {
           setUserPosts(data.blogs);
         }
       } catch (error) {
-        console.log(error.message);
+        toast.error(error.message);
       }
     };
     fetchPosts();
