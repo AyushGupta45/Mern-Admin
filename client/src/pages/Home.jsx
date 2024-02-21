@@ -9,7 +9,6 @@ import DynamicPage from "../components/DynamicPage";
 import { useParams } from "react-router-dom";
 import About from "./About";
 import Upload from "./Upload";
-import BlogsUser from "../components/BlogsUser";
 import { useSelector } from "react-redux";
 import Faq from "../components/Faq";
 import Prices from "../components/Prices";
@@ -44,10 +43,6 @@ const Home = () => {
     content = <DynamicPageServices />;
   } else if (window.location.pathname === "/upload") {
     content = <Upload />;
-  // } else if (window.location.pathname === "/blogs") {
-  //   content = <BlogsUser />;
-  // } else if (window.location.pathname === "/faqs") {
-  //   content = <Faq />;
   } else {
     content = <Content />;
   }

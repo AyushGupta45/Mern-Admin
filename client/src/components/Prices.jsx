@@ -21,7 +21,7 @@ const Prices = () => {
       <h2 className="text-3xl font-bold text-blue-900 mb-8 text-center">
         Benefits of utilizing our writing service includes
       </h2>
-      <div className="flex flex-col lg:flex-row gap-6 items-center">
+      <div className="flex flex-col lg:flex-row gap-6 items-center p-2">
         <div className="grid grid-cols-1 w-full gap-4">
           {perks.map((perk, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg p-6">

@@ -74,6 +74,12 @@ body::-webkit-scrollbar-thumb-horizontal {
   -webkit-line-clamp: 2; /* Number of lines to show */
 }
 
+.glassy-effect {
+  background: rgba(255, 255, 255, 0.6); /* Adjust the opacity as needed */
+  backdrop-filter: blur(8px); /* Adjust the blur effect as needed */
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

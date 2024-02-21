@@ -17,17 +17,31 @@ const HowToOrder = () => {
   };
   return (
     <div className="pb-8">
-      <div className="max-w-4xl mx-auto mb-8">
+      <div className="mx-auto mb-8">
         <h2 className="text-3xl font-bold text-blue-900 mb-8 text-center">
           How to Order Assignment Help Service?
         </h2>
-        <Card className="bg-white rounded-lg shadow-lg p-6">
-          {paragraphs.map((paragraph, index) => (
-            <p key={index} className={`text-lg text-blue-800 text-start mb-2`}>
-              {paragraph.text}
-            </p>
-          ))}
-        </Card>
+
+        <div className="flex-1 w-11/12 m-auto">
+          <img
+            src="/assets/vecteezy_the-teacher-is-explaining-the-lesson-in-class-with-students_4578983.jpg"
+            alt="Home"
+            className="w-full h-auto mix-blend-multiply"
+          />
+          <Card className="mx-auto bg-blue-100 hover:shadow-lg transition duration-300 ease-in-out glassy-effect rounded-lg shadow-lg p-6">
+            {paragraphs.map((paragraph, index) => (
+              <div>
+                <h5 className="text-lg text-blue-800 text-start mb-4">
+                  {React.createElement(paragraph.icon, {
+                    className: "inline mr-2 text-blue-600",
+                    style: { fontSize: "1.25em" },
+                  })}
+                  {paragraph.text}
+                </h5>
+              </div>
+            ))}
+          </Card>
+        </div>
       </div>
 
       <div className="w-full">

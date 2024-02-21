@@ -22,7 +22,7 @@ function ExpertFaq() {
       <h1 className="text-3xl font-bold text-blue-900 text-center mb-8">
         FAQ's
       </h1>
-      <div className="grid grid-cols-1 gap-4 w-11/12 sm:w-9/12 m-auto">
+      <div className="grid grid-cols-1 gap-4 w-11/12 sm:w-9/12 m-auto ">
         {expertfaqs.map((faq, index) => (
           <Card key={index} className="bg-white rounded-lg shadow-lg">
             <div className="p-4" onClick={() => toggleAccordion(index)}>

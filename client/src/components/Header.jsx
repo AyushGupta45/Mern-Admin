@@ -47,7 +47,7 @@ const Header = () => {
           Logo
         </span> */}
         <img
-          src="/asset/logo.jpg"
+          src="/assets/logo.jpg"
           alt="Home"
           className="w-14 h-auto md:h-full rounded-full"
         />

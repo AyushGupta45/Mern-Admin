@@ -102,12 +102,12 @@ const Content = () => {
   };
 
   return !currentUser || !currentUser.isAdmin ? (
-    <div className="container w-full mx-auto flex flex-col justify-center items-center py-10 lg:flex-row gap-4">
-      <div className="flex-1">
+    <div className="container w-full mx-auto flex flex-col justify-center items-center py-6 lg:flex-row gap-4">
+      <div className="flex-1 w-11/12">
         <img
-          src="/asset/home.svg"
+          src="/assets/vecteezy_studying-and-learning-online-concept_1270244.svg"
           alt="Home"
-          className="w-full h-auto md:h-full"
+          className="w-full h-auto  mix-blend-multiply"
         />
       </div>
       <div className="flex w-full lg:w-5/12 flex-col sm:flex-row gap-4 items-center p-4">

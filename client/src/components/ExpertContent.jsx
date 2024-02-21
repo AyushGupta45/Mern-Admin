@@ -32,11 +32,11 @@ const ExpertContent = () => {
           </a>
         </div>
       </div>{" "}
-      <div>
+      <div className="w-full lg:w-1/2">
         <img
-          src="/asset/home.svg"
+          src="/assets/vecteezy_male-teacher-is-using-computer-and-tablet-for-teaching-in_9018522.jpg"
           alt="Home"
-          className="w-full h-auto md:h-full transform scale-x-[-1]"
+          className="w-full h-auto md:h-full mix-blend-multiply	"
         />
       </div>
     </div>

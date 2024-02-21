@@ -16,7 +16,7 @@ const Services = () => {
     }
   };
   return (
-    <div className="pb-8">
+    <div className="pb-8 p-2">
       <div className="flex flex-col items-center gap-y-4">
         <h2 className="text-3xl font-bold text-blue-900 mb-4 text-center">
           Assignment Help Services

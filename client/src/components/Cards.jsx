@@ -19,7 +19,7 @@ const Cards = () => {
   const renderedCards = cardData.map((card, index) => (
     <Card
       key={index}
-      className="max-w-md mx-auto bg-white rounded-lg shadow-md border border-blue-400"
+      className="max-w-md mx-auto bg-blue-100 rounded-lg shadow-md border hover:shadow-lg transition duration-300 ease-in-out border-blue-400 glassy-effect"
     >
       <div className="p-8">
         <h5 className="text-xl font-bold text-blue-900 mb-4 flex justify-center items-center">

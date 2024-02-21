@@ -63,7 +63,7 @@ const SignUp = () => {
               className="font-bold dark:text-white text-4xl flex justify-center items-center gap-2"
             >
               <img
-                src="/asset/logo.jpg"
+                src="/assets/logo.jpg"
                 alt="Home"
                 className="w-36 h-auto md:h-full rounded-full"
               />

@@ -1,6 +1,6 @@
 import React from "react";
 import { howtobecomeexpert } from "../constants";
-
+import { Card } from "flowbite-react";
 
 const Howtobecomeexpert = () => {
   return (
@@ -17,23 +17,33 @@ const Howtobecomeexpert = () => {
           effectively, follow these steps
         </p>
       </div>
-
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-8 p-4">
-        {howtobecomeexpert.map((step, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-center p-4 mb-4 rounded-lg bg-gray-100 w-9/12 sm:w-72 h-48 hover:shadow-lg transition duration-300 ease-in-out"
-          >
-            <div className="flex flex-col items-center justify-center">
-              <div className="flex items-center text-blue-900">
-                <p className="text-3xl font-bold mr-2">{React.createElement(step.icon)}</p>
-                <p className="text-4xl font-bold">{step.percent}</p>
-              </div>
-              <p className="text-md mt-2 font-bold text-center">{step.name}</p>
-            </div>
-          </div>
-        ))}
+      <div className="w-full">
+        <img
+          src="/assets/Project_66-01.jpg"
+          alt="Home"
+          className="w-full h-auto md:h-full mix-blend-multiply	m-auto"
+        />
       </div>
+
+      <div className="my-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+  {howtobecomeexpert.map((step, index) => (
+    <Card
+      key={index}
+      className="rounded-lg mx-auto bg-blue-100 shadow-md border border-blue-400 glassy-effect w-11/12 hover:shadow-lg transition duration-300 ease-in-out justify-self-center self-center"
+    >
+      <div className="flex flex-col h-full justify-center items-center p-4">
+        <div className="flex items-center text-blue-900 mb-2">
+          <p className="text-3xl font-bold mr-2">
+            {React.createElement(step.icon)}
+          </p>
+          <p className="text-4xl font-bold">{step.percent}</p>
+        </div>
+        <p className="text-md font-bold text-center">{step.name}</p>
+      </div>
+    </Card>
+  ))}
+</div>
+
     </div>
   );
 };

@@ -34,6 +34,13 @@ import {
   FaBookOpen,
   FaTasks,
   FaEdit,
+  FaBook,
+  FaQuestionCircle,
+  FaUserGraduate,
+  FaHandsHelping,
+  FaLightbulb,
+  FaBriefcase,
+  FaGlobe,
 } from "react-icons/fa";
 
 import {
@@ -42,6 +49,7 @@ import {
   AiOutlineLock,
   AiOutlineEdit,
 } from "react-icons/ai";
+
 
 export const cardData = [
   {
@@ -120,21 +128,27 @@ export const cardData = [
 export const paragraphs = [
   {
     text: "At our website, we're dedicated to assisting students with assignments, projects, and homework. Our team comprises subject experts who excel in their fields and ensure the quality of your work every time.",
+    icon: FaGraduationCap
   },
   {
     text: "We understand the importance of deadlines in your academic journey. That's why we prioritize timely delivery, ensuring that you manage your workload efficiently without missing any due dates.",
+    icon: FaClock
   },
   {
     text: "Each task is unique, and we treat it as such. Our approach is fully customized to match your learning style and meet your specific requirements. Expect assignments that reflect your understanding and originality.",
+    icon: FaTasks
   },
   {
     text: "We're not just here to complete tasks; we're here to enhance your knowledge. Our service goes beyond providing a simple homework solution. It's a way to deepen your understanding of concepts and promote academic integrity by delivering authentic and original work.",
+    icon: FaBook
   },
   {
     text: "Need help understanding a concept? We're here to support you. Whether it's a quick assignment or a complex project, we cover a wide range of subjects to ensure you have assistance for everything you need.",
+    icon: FaQuestionCircle
   },
   {
     text: "Think of us as your academic companion. Our team is reliable, consistent, and committed to helping you excel in your studies every step of the way.",
+    icon: FaUserGraduate
   },
 ];
 
@@ -425,13 +439,34 @@ export const academicServices = [
 ];
 
 export const about = [
-  "Welcome to our website! We are dedicated to providing high-quality services to students who need assistance with assignments, projects, and homework. Our team consists of subject experts who excel in their respective fields, ensuring that you receive top-notch support every time.",
-  "At our website, we understand the importance of deadlines in your academic journey. That's why we prioritize timely delivery, helping you manage your workload efficiently without missing any due dates.",
-  "Each task is unique, and we treat it as such. Our approach is fully customized to match your learning style and meet your specific requirements. Expect assignments that reflect your understanding and originality.",
-  "We're not just here to complete tasks; we're here to enhance your knowledge. Our service goes beyond providing a simple homework solution. It's a way to deepen your understanding of concepts and promote academic integrity by delivering authentic and original work.",
-  "Whether you need help understanding a concept, completing a quick assignment, or tackling a complex project, we cover a wide range of subjects to ensure you have assistance for everything you need.",
-  "Think of us as your academic companion. Our team is reliable, consistent, and committed to helping you excel in your studies every step of the way.",
+  {
+    text: "Welcome to our website! We are dedicated to providing high-quality services to students who need assistance with assignments, projects, and homework.",
+    icon: FaGraduationCap
+  },
+  {
+    text: "At our website, we understand the importance of deadlines in your academic journey. That's why we prioritize timely delivery, helping you manage your workload efficiently without missing any due dates.",
+    icon: FaHandsHelping
+  },
+  {
+    text: "Each task is unique, and we treat it as such. Our approach is fully customized to match your learning style and meet your specific requirements. Expect assignments that reflect your understanding and originality.",
+    icon: FaLightbulb
+  },
+  {
+    text: "We're not just here to complete tasks; we're here to enhance your knowledge. Our service goes beyond providing a simple homework solution. It's a way to deepen your understanding of concepts and promote academic integrity by delivering authentic and original work.",
+    icon: FaBriefcase
+  },
+  {
+    text: "Whether you need help understanding a concept, completing a quick assignment, or tackling a complex project, we cover a wide range of subjects to ensure you have assistance for everything you need.",
+    icon: FaGlobe
+  },
+  {
+    text: "Think of us as your academic companion. Our team is reliable, consistent, and committed to helping you excel in your studies every step of the way.",
+    icon: FaUsers
+  },
 ];
+
+
+
 
 export const expertBenefits = [
   {
