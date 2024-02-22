@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FileInput, Select, TextInput, Button } from "flowbite-react";
+import React, { useEffect, useState, useRef } from "react";
+import { Select, TextInput, Button, Spinner } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -7,13 +7,15 @@ import {
   ref,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { academicServices } from "../constants";
 import { toast } from "react-hot-toast";
+import { IoCloudUpload } from "react-icons/io5";
+import { FaCircleCheck } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const DynamicPageServices = () => {
+  const { currentUser } = useSelector((state) => state.user);
   let { service } = useParams();
   const formattedSubject = service.replace(/-/g, " ");
   const capitalizedSubject =
@@ -28,10 +30,14 @@ const DynamicPageServices = () => {
       ? subjectInfo.description
       : "Feeling stuck on your assignment? Don't worry, we're here to assist you! Whether it's a tricky problem or a complex project, our team is ready to help. Take the first step towards success by uploading your task now. Our experts will provide tailored assistance to ensure you understand the material and excel in your studies. Don't let challenges hold you back – get the support you need today!";
 
-  const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState({
+    uploadLink: "",
+    title: "",
+    category: capitalizedSubject,
+  });
   const navigate = useNavigate();
+  const filePickerRef = useRef();
 
   useEffect(() => {
     window.scrollTo({
@@ -41,7 +47,7 @@ const DynamicPageServices = () => {
     });
   }, []);
 
-  const handleUploadFile = async () => {
+  const handleUploadFile = async (file) => {
     if (!currentUser) {
       toast.error("You must be logged in");
       navigate("/sign-in");
@@ -73,7 +79,7 @@ const DynamicPageServices = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
             setFormData({ ...formData, uploadLink: downloadURL });
-            toast.success("File uploaded successfully!");
+            filePickerRef.current.value = '';
           });
         }
       );
@@ -105,6 +111,11 @@ const DynamicPageServices = () => {
       }
       if (res.ok) {
         toast.success("Assignment published successfully!");
+        setFormData({
+          uploadLink: "",
+          title: "",
+          category: capitalizedSubject,
+        });
       }
     } catch (error) {
       toast.error("Something went wrong!");
@@ -140,53 +151,72 @@ const DynamicPageServices = () => {
                   type="text"
                   placeholder="Type your Question"
                   required
+                  value={formData.title}
                   id="title"
                   className="w-full"
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
                 />
-                <Select
-                  id="select"
-                  disabled
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
-                  className="w-full"
-                >
-                  <option value="Biology">{capitalizedSubject}</option>
+
+                <div className="flex w-full items-center justify-center">
+                  <input
+                    id="upload"
+                    type="file"
+                    accept=".pdf, .doc, .docx"
+                    onChange={(e) => handleUploadFile(e.target.files[0])}
+                    ref={filePickerRef}
+                    hidden
+                  />
+                  <div
+                    className="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50  pb-6 pt-5"
+                    onClick={
+                      formData.uploadLink !== ""
+                        ? null
+                        : () => filePickerRef.current.click()
+                    }
+                  >
+                    {fileUploadProgress && fileUploadProgress < 100 ? (
+                      <div className="w-32 h-32 flex items-center justify-center rounded-full">
+                        <Spinner aria-label="Uploading..." size="xl" />
+                      </div>
+                    ) : (
+                      <>
+                        {formData.uploadLink !== "" ? (
+                          <>
+                            <FaCircleCheck className="mb-4 h-8 w-8 text-green-500" />
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                File Uploaded
+                              </span>
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <IoCloudUpload className="mb-4 h-8 w-8 text-gray-500" />
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              PDF, DOC, or DOCX (Maximum file size: 2MB)
+                            </p>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <Select id="select" disabled className="w-full">
+                  <option value={capitalizedSubject}>
+                    {capitalizedSubject}
+                  </option>
                 </Select>
               </div>
-              {/* Upload */}
-              <div className="flex flex-col gap-4 items-start sm:items-center sm:flex-row sm:justify-between">
-                <FileInput
-                  id="upload"
-                  type="file"
-                  accept=".pdf, .doc, .docx"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  className="w-full sm:w-auto"
-                />
-                <Button
-                  type="button"
-                  gradientDuoTone="purpleToBlue"
-                  size="sm"
-                  outline
-                  onClick={handleUploadFile}
-                  disabled={fileUploadProgress}
-                  className="w-full sm:w-auto"
-                >
-                  {fileUploadProgress ? (
-                    <div className="w-16 h-16">
-                      <CircularProgressbar
-                        value={fileUploadProgress}
-                        text={`${fileUploadProgress || 0}%`}
-                      />
-                    </div>
-                  ) : (
-                    "Upload"
-                  )}
-                </Button>
-              </div>
+
               <Button
                 type="submit"
                 gradientDuoTone="purpleToPink"

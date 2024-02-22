@@ -95,7 +95,7 @@ const DashSidebar = () => {
 
                 <Link to="/dashboard?tab=experts">
                   <Sidebar.Item
-                    active={tab == "users"}
+                    active={tab == "experts"}
                     icon={GrUserExpert}
                     labelColor="dark"
                     as="div"

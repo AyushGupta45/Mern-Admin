@@ -71,7 +71,7 @@ const Header = () => {
               arrowIcon={false}
               inline
               label={
-                <Avatar alt="user" img={currentUser.profilePicture} rounded />
+                <Avatar alt="user" img={currentUser.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} rounded />
               }
             >
               <Dropdown.Item
@@ -157,7 +157,6 @@ const Header = () => {
             onClick={() => {
               scrollToElement("faq");
             }}
-            // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <Link to="/faqs">FAQ's</Link>
           </Navbar.Link>
@@ -168,7 +167,6 @@ const Header = () => {
             onClick={() => {
               scrollToElement("about");
             }}
-            // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <Link to="/about">About</Link>
           </Navbar.Link>
@@ -186,7 +184,7 @@ const Header = () => {
             <Link to="/">Home</Link>
           </Navbar.Link>
           <Navbar.Link
-            active={path === "/dashboard?tab=blogs"}
+            active={path.startsWith("/dashboard") && new URLSearchParams(location.search).get("tab") === "blogs"}
             as={"div"}
             className="font-bold text-md lg:text-lg"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

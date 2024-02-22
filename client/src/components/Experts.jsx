@@ -65,26 +65,28 @@ const Experts = () => {
                 <img
                   src={expert.uploadLink || "https://via.placeholder.com/150"}
                   alt={expert.name}
-                  className="w-full h-40 object-cover rounded-t-lg"
+                  className="w-full h-40 object-cover rounded-t-lg mb-2"
                 />
-                <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2">{expert.name}</div>
-                  <p className="text-gray-700 text-base mb-2">
-                    {expert.degree}
-                  </p>
-                  <div className="flex justify-center items-center text-yellow-400 gap-x-1">
-                    {[...Array(expert.stars || 0)].map((_, index) => (
-                      <FaStar key={index} size={30} />
-                    ))}
-                    {expert.stars === undefined && (
-                      <span>No rating available</span>
-                    )}
-                  </div>
-                  <p className="text-gray-700 text-base mt-2">
-                    <strong>Specialization: </strong>
-                    {expert.specialization.join(", ")}
-                  </p>
+                
+                <div className="font-bold text-xl mb-2">{expert.name}</div>
+
+                <div className="text-gray-700 text-base mb-2">
+                  {expert.degree}
                 </div>
+
+                <div className="flex justify-center mb-2 items-center text-yellow-400 gap-x-1">
+                  {[...Array(expert.stars || 0)].map((_, index) => (
+                    <FaStar key={index} size={30} />
+                  ))}
+                  {expert.stars === undefined && (
+                    <span>No rating available</span>
+                  )}
+                </div>
+
+                <p className="text-gray-700">
+                  <strong>Specialization: </strong>
+                  {expert.specialization.join(", ")}
+                </p>
               </div>
             ))}
         </div>

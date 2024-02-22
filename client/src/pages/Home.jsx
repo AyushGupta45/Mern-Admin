@@ -24,8 +24,8 @@ const Home = () => {
 
   if (currentUser && currentUser.isAdmin) {
     return (
-      <div className="bg-blue-100 ">
-        <div className="m-auto text-center w-full px-10 sm:w-9/12 sm:px-0">
+      <div className="bg-blue-100">
+        <div className="m-auto text-center pt-4 w-full px-10 sm:w-9/12 sm:px-0">
           <Cards />
           <hr className="my-8 border-t border-gray-400" />
           <Reviews />

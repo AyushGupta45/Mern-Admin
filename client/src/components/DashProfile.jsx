@@ -8,7 +8,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import "react-circular-progressbar/dist/styles.css";
 import {
   updateStart,
   updateSuccess,
@@ -179,7 +178,7 @@ export default function DashProfile() {
           ) : (
             <>
               <img
-                src={imageFileUrl || currentUser.profilePicture}
+                src={imageFileUrl || currentUser.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                 alt="user"
                 className="rounded-full w-32 h-32 object-cover"
               />

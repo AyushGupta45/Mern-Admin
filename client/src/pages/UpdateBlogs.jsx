@@ -1,4 +1,4 @@
-import { FileInput, TextInput, Label, Button } from "flowbite-react";
+import { TextInput, Label, Button, Spinner } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -6,23 +6,22 @@ import {
   ref,
 } from "firebase/storage";
 import { app } from "../firebase";
-import React, { useState } from "react";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { IoCloudUpload } from "react-icons/io5";
 
 const UpdateBlogs = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [file, setFile] = useState(null);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
   const [formData, setFormData] = useState(null);
   const { blogId } = useParams();
   const navigate = useNavigate();
+  const filePickerRef = useRef();
   useEffect(() => {
     try {
       const fetchPost = async () => {
@@ -46,7 +45,7 @@ const UpdateBlogs = () => {
     }
   }, [blogId]);
 
-  const handleUploadFile = async () => {
+  const handleUploadFile = async (file) => {
     if (!currentUser) {
       toast.error("You must be logged in");
       navigate("/sign-in");
@@ -78,7 +77,7 @@ const UpdateBlogs = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
             setFormData({ ...formData, uploadLink: downloadURL });
-            toast.success("File uploaded successfully!");
+            filePickerRef.current.value = "";
           });
         }
       );
@@ -96,12 +95,7 @@ const UpdateBlogs = () => {
       return;
     }
 
-    const changesMade =
-      formData.title === "" ||
-      formData.uploadLink === "" ||
-      formData.content === "";
-
-    if (!changesMade) {
+    if (Object.keys(formData).length == 0) {
       toast.error("No changes made");
       return;
     }
@@ -154,37 +148,39 @@ const UpdateBlogs = () => {
             </div>
 
             <div>
-              <Label htmlFor="upload" className="block mb-2 text-lg font-bold">
+              <Label htmlFor="upload" className="block text-gray-500">
                 Add Images:
               </Label>
-              <div className="flex flex-col gap-4 items-start sm:items-center sm:flex-row sm:justify-between">
-                <FileInput
+              <div className="flex w-full items-center justify-center">
+                <input
                   id="upload"
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  className="w-full"
+                  onChange={(e) => handleUploadFile(e.target.files[0])}
+                  ref={filePickerRef}
+                  hidden
                 />
-                <Button
-                  type="button"
-                  gradientDuoTone="purpleToBlue"
-                  size="sm"
-                  outline
-                  onClick={handleUploadFile}
-                  disabled={fileUploadProgress}
-                  className="w-full sm:w-auto"
+                <div
+                  className="flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50  pb-6 pt-5"
+                  onClick={() => filePickerRef.current.click()}
                 >
-                  {fileUploadProgress ? (
-                    <div className="w-16 h-16">
-                      <CircularProgressbar
-                        value={fileUploadProgress}
-                        text={`${fileUploadProgress || 0}%`}
-                      />
+                  {fileUploadProgress && fileUploadProgress < 100 ? (
+                    <div className="w-32 h-32 flex items-center justify-center rounded-full">
+                      <Spinner aria-label="Uploading..." size="xl" />
                     </div>
                   ) : (
-                    "Upload"
+                    <>
+                      <IoCloudUpload className="mb-4 h-8 w-8 text-gray-500" />
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Click to upload</span>{" "}
+                        or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        PDF, DOC, or DOCX (Maximum file size: 2MB)
+                      </p>
+                    </>
                   )}
-                </Button>
+                </div>
               </div>
             </div>
             {formData && formData.uploadLink && (
