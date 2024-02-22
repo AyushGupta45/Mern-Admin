@@ -1,8 +1,9 @@
-import { Card } from "flowbite-react";
 import React, { useState, useEffect } from "react";
+import { FaStar } from "react-icons/fa";
 
 const Experts = () => {
   const [experts, setExperts] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -21,34 +22,74 @@ const Experts = () => {
     fetchExperts();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(
+        (currentIndex) => (currentIndex + 1) % (experts.length - 2)
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [experts]);
+
   return (
-    <>
+    <div className="p-2">
+      <h2 className="text-3xl font-bold text-blue-900 mb-4">
+        Meet Our Expert Team
+      </h2>
+      <p className="text-lg text-blue-800 mb-8">
+        Our expert team comprises skilled professionals in the field of
+        technology, each bringing a wealth of knowledge and experience. From
+        software engineering to data science, cybersecurity to web development,
+        our experts excel in diverse specializations. With their passion for
+        innovation and problem-solving, they are dedicated to delivering
+        top-notch solutions that meet your needs. Explore our team below and
+        discover the expertise that drives our success.
+      </p>
+
       {experts.length === 0 ? (
-        <h1 className="text-4xl font-bold text-gray-900 text-center mt-8">
-          No Experts
-        </h1>
+        <div className="bg-white rounded-lg shadow-lg p-6 h-full flex flex-col justify-between items-center text-center w-full">
+          <div>
+            <p className="text-lg font-semibold text-gray-700">No Experts</p>
+          </div>
+        </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {experts.map((expert) => (
-            <Card
-              key={expert._id}
-              className="w-full max-w-xs mx-auto rounded-lg overflow-hidden shadow-lg"
-              imgAlt={expert.name}
-              imgSrc={expert.uploadLink}
-            >
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{expert.name}</div>
-                <p className="text-gray-700 text-base">{expert.degree}</p>
-                <p className="text-gray-700 text-base mt-2">
-                  <strong>Specialization: </strong>
-                  {expert.specialization.join(", ")}
-                </p>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {experts
+            .slice(currentIndex, currentIndex + 3)
+            .map((expert, index) => (
+              <div
+                key={index}
+                className={`bg-white m-auto rounded-lg shadow-lg p-6 h-full flex flex-col justify-between items-center text-center w-full`}
+              >
+                <img
+                  src={expert.uploadLink || "https://via.placeholder.com/150"}
+                  alt={expert.name}
+                  className="w-full h-40 object-cover rounded-t-lg"
+                />
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2">{expert.name}</div>
+                  <p className="text-gray-700 text-base mb-2">
+                    {expert.degree}
+                  </p>
+                  <div className="flex justify-center items-center text-yellow-400 gap-x-1">
+                    {[...Array(expert.stars || 0)].map((_, index) => (
+                      <FaStar key={index} size={30} />
+                    ))}
+                    {expert.stars === undefined && (
+                      <span>No rating available</span>
+                    )}
+                  </div>
+                  <p className="text-gray-700 text-base mt-2">
+                    <strong>Specialization: </strong>
+                    {expert.specialization.join(", ")}
+                  </p>
+                </div>
               </div>
-            </Card>
-          ))}
+            ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

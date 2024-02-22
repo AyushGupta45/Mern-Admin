@@ -1,4 +1,4 @@
-import { Button, Modal,  TextInput } from "flowbite-react";
+import { Button, Modal, Spinner, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -8,7 +8,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import {
   updateStart,
@@ -27,9 +26,10 @@ import {
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { MdEdit } from "react-icons/md";
 
 export default function DashProfile() {
-  const { currentUser,  loading } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -76,7 +76,6 @@ export default function DashProfile() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
-          toast.success("Image Uploaded successfully!");
         });
       }
     );
@@ -88,7 +87,6 @@ export default function DashProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
 
     if (Object.keys(formData).length == 0) {
       toast.error("No changes made");
@@ -158,7 +156,9 @@ export default function DashProfile() {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full ">
-      <h1 className="text-4xl font-bold text-blue-900 text-center my-4">Profile</h1>
+      <h1 className="text-4xl font-bold text-blue-900 text-center my-4">
+        Profile
+      </h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
@@ -169,39 +169,28 @@ export default function DashProfile() {
           hidden
         />
         <div
-          className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full"
+          className="relative w-36 h-36 self-center cursor-pointe bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-md rounded-full flex justify-center items-center"
           onClick={() => filePickerRef.current.click()}
         >
-          {imageFileUploadProgress && (
-            <CircularProgressbar
-              value={imageFileUploadProgress || 0}
-              text={`${imageFileUploadProgress}%`}
-              strokeWidth={5}
-              styles={{
-                root: {
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                },
-                path: {
-                  stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
-                  })`,
-                },
-              }}
-            />
+          {imageFileUploadProgress && imageFileUploadProgress < 100 ? (
+            <div className="w-32 h-32 flex items-center justify-center rounded-full bg-white">
+              <Spinner aria-label="Uploading..." size="xl" />
+            </div>
+          ) : (
+            <>
+              <img
+                src={imageFileUrl || currentUser.profilePicture}
+                alt="user"
+                className="rounded-full w-32 h-32 object-cover"
+              />
+              <div className="absolute bottom-1.5 right-1.5">
+                <MdEdit
+                  className="text-gray-800 bg-white rounded-full p-1 cursor-pointer"
+                  size={32}
+                />
+              </div>
+            </>
           )}
-          <img
-            src={imageFileUrl || currentUser.profilePicture}
-            alt="user"
-            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
-              imageFileUploadProgress &&
-              imageFileUploadProgress < 100 &&
-              "opacity-60"
-            }`}
-          />
         </div>
 
         <TextInput

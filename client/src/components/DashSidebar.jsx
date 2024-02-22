@@ -1,6 +1,7 @@
 import { Sidebar } from "flowbite-react";
 import { HiUser, HiArrowSmRight, HiDocumentText } from "react-icons/hi";
 import { FaUser, FaCommentAlt } from "react-icons/fa";
+import { GrUserExpert } from "react-icons/gr";
 import {
   MdPendingActions,
   MdDoneAll,
@@ -89,6 +90,17 @@ const DashSidebar = () => {
                     as="div"
                   >
                     Users
+                  </Sidebar.Item>
+                </Link>
+
+                <Link to="/dashboard?tab=experts">
+                  <Sidebar.Item
+                    active={tab == "users"}
+                    icon={GrUserExpert}
+                    labelColor="dark"
+                    as="div"
+                  >
+                    Experts
                   </Sidebar.Item>
                 </Link>
 

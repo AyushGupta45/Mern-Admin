@@ -184,7 +184,7 @@ const DashAssignments = () => {
                   </Table.Cell>
 
                   <Table.Cell className="text-center border-x-2">
-                    <div className="flex justify-center">
+                    <div className="flex justify-center gap-2">
                       {!assignment.isApproved && !assignment.isDenied && (
                         <>
                           <Button
@@ -201,7 +201,7 @@ const DashAssignments = () => {
                           </Button>
                           <Button
                             outline
-                            className="bg-red-500 hover:bg-red-700 text-white ml-2 w-20"
+                            className="bg-red-500 hover:bg-red-700 text-white w-20"
                             onClick={() =>
                               handleDeny(assignment._id, assignment.userId._id)
                             }

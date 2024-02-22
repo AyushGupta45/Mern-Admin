@@ -10,5 +10,5 @@ export default {
       widest: ".35em",
     },
   },
-  plugins: [require("flowbite/plugin"), require("tailwind-scrollbar")],
+  plugins: [require("flowbite/plugin")],
 };

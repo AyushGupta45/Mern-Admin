@@ -5,7 +5,7 @@ const ExpertCards = () => {
   const renderedCards = expertBenefits.map((card, index) => (
     <div
       key={index}
-      className="mx-auto bg-blue-100 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out border border-blue-400 glassy-effect"
+      className="mx-auto bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out border border-blue-400 glassy-effect"
     >
       <div className="p-8">
         <h5 className="text-xl font-bold text-blue-900 mb-4 flex justify-center items-center">

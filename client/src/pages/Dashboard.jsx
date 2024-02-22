@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import DashSidebar from "../components/DashSidebar";
 import DashProfile from "../components/DashProfile";
@@ -13,7 +13,7 @@ import DashCompleted from "../components/DashCompleted";
 import DashUserCompleted from "../components/DashUserCompleted";
 import Blogs from "../components/Blogs";
 import DashReviews from "../components/DashReviews";
-
+import DashExperts from "../components/DashExperts";
 
 const Dashboard = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -36,23 +36,25 @@ const Dashboard = () => {
 
       {tab === "assignments" && currentUser.isAdmin && <DashAssignments />}
 
-      {tab === "pending" && !currentUser.isAdmin && <DashPending/>}
+      {tab === "pending" && !currentUser.isAdmin && <DashPending />}
 
-      {tab === "approved" && !currentUser.isAdmin && <DashApproved/>}
+      {tab === "approved" && !currentUser.isAdmin && <DashApproved />}
 
-      {tab === "denied" && !currentUser.isAdmin && <DashDenied/>}
+      {tab === "denied" && !currentUser.isAdmin && <DashDenied />}
 
-      {tab === "usercompleted" && !currentUser.isAdmin && <DashUserCompleted/>}
+      {tab === "usercompleted" && !currentUser.isAdmin && <DashUserCompleted />}
 
-      {tab === "users" && currentUser.isAdmin && <DashUsers/>}
+      {tab === "users" && currentUser.isAdmin && <DashUsers />}
 
-      {tab === "reviews" && currentUser.isAdmin && <DashReviews/>}
+      {tab === "experts" && currentUser.isAdmin && <DashExperts />}
 
-      {tab === "adminapproved" && currentUser.isAdmin && <DashAdminApproved/>}
+      {tab === "reviews" && currentUser.isAdmin && <DashReviews />}
 
-      {tab === "completed" && currentUser.isAdmin && <DashCompleted/>}
+      {tab === "adminapproved" && currentUser.isAdmin && <DashAdminApproved />}
 
-      {tab === "blogs" && currentUser.isAdmin && <Blogs/>}
+      {tab === "completed" && currentUser.isAdmin && <DashCompleted />}
+
+      {tab === "blogs" && currentUser.isAdmin && <Blogs />}
     </div>
   );
 };

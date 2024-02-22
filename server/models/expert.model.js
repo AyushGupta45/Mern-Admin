@@ -16,6 +16,12 @@ const expertSchema = new mongoose.Schema({
   uploadLink: {
     type: String,
   },
+  stars: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

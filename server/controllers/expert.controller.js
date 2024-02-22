@@ -2,7 +2,7 @@ import { errorHandler } from "../utils/error.js";
 import Expert from "../models/expert.model.js";
 
 export const createExpert = async (req, res) => {
-  const { name, degree, specialization, uploadLink } = req.body;
+  const { name, degree, specialization, uploadLink, stars } = req.body;
 
   if (
     !name ||
@@ -35,6 +35,7 @@ export const createExpert = async (req, res) => {
     degree,
     specialization: expertSpecialization,
     uploadLink: finalUploadLink,
+    stars,
   });
 
   try {
@@ -49,14 +50,24 @@ export const createExpert = async (req, res) => {
   }
 };
 
-
 export const getExpert = async (req, res) => {
-    try {
-      const experts = await Expert.find();
-      res.status(200).json({ experts }); 
-    } catch (e) {
-      res.status(500).json({ error: "Failed to fetch experts" });
-    }
-  };
-  
+  try {
+    const experts = await Expert.find();
+    res.status(200).json({ experts });
+  } catch (e) {
+    res.status(500).json({ error: "Failed to fetch experts" });
+  }
+};
 
+
+export const deleteExpert = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to delete this"));
+  }
+  try {
+    await Expert.findByIdAndDelete(req.params.expertId);
+    res.status(200).json("Deleted");
+  } catch (error) {
+    next(error);
+  }
+};

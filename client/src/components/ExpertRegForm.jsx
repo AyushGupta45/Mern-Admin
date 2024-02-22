@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { TextInput, Button } from "flowbite-react";
+import { TextInput, Button, Spinner, Label } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -10,6 +10,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "../firebase";
+import { MdEdit } from "react-icons/md";
+import { FaStar } from "react-icons/fa";
 
 const ExpertRegForm = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -19,6 +21,7 @@ const ExpertRegForm = () => {
     degree: "",
     specialization: "",
     uploadLink: "",
+    stars: 3,
   });
   const navigate = useNavigate();
   const filePickerRef = useRef();
@@ -55,7 +58,6 @@ const ExpertRegForm = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setFileUploadProgress(null);
             setFormData({ ...formData, uploadLink: downloadURL });
-            toast.success("Image uploaded successfully!");
           });
         }
       );
@@ -95,7 +97,13 @@ const ExpertRegForm = () => {
       }
       if (res.ok) {
         toast.success("Expert Registered successfully!");
-        setFormData({});
+        setFormData({
+          name: "",
+          degree: "",
+          specialization: "",
+          uploadLink: "",
+          stars: 3,
+        });
         filePickerRef.current.value = null;
       }
     } catch (error) {
@@ -118,41 +126,70 @@ const ExpertRegForm = () => {
             hidden
           />
           <div
-            className="relative w-32 h-32 self-center cursor-pointer m-auto shadow-md overflow-hidden rounded-full"
+            className="relative w-36 h-36 self-center cursor-pointe bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-md rounded-full flex justify-center items-center"
             onClick={() => filePickerRef.current.click()}
           >
-            <img
-              src={
-                formData.uploadLink ||
-                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              }
-              alt="user"
-              className={`rounded-full w-full h-full object-cover  border-8 border-[lightgray] ${
-                fileUploadProgress && fileUploadProgress < 100 && "opacity-60"
-              }`}
-            />
+            {fileUploadProgress && fileUploadProgress < 100 ? (
+              <div className="w-32 h-32 flex items-center justify-center rounded-full bg-white">
+                <Spinner aria-label="Uploading..." size="xl" />
+              </div>
+            ) : (
+              <>
+                <img
+                  src={
+                    formData.uploadLink ||
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                  }
+                  alt="user"
+                  className="rounded-full w-32 h-32 object-cover"                />
+                <div className="absolute bottom-1.5 right-1.5">
+                  <MdEdit
+                    className="text-gray-800 bg-white rounded-full p-1 cursor-pointer"
+                    size={32}
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           <TextInput
             type="text"
             placeholder="Name"
-            required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
+
+          <div className="flex flex-row gap-4 p-2.5 bg-gray-50 rounded-lg border items-center w-full disabled:cursor-not-allowed disabled:opacity-50  border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 text-sm">
+            <Label htmlFor="star" value="Rating" className="text-gray-500" />
+            <div className="flex gap-x-4">
+              {[1, 2, 3, 4, 5].map((starCount) => (
+                <FaStar
+                  size={30}
+                  key={starCount}
+                  id="star"
+                  className={`cursor-pointer ${
+                    starCount <= formData.stars
+                      ? "text-yellow-300"
+                      : "text-gray-600"
+                  } text-2xl`}
+                  onClick={() => setFormData({ ...formData, stars: starCount })}
+                />
+              ))}
+            </div>
+          </div>
+
           <TextInput
             type="text"
             placeholder="Degree"
-            required
             value={formData.degree}
             onChange={(e) =>
               setFormData({ ...formData, degree: e.target.value })
             }
           />
+
           <TextInput
             type="text"
             placeholder="Enter specializations (comma-separated)"
-            required
             value={formData.specialization}
             onChange={(e) =>
               setFormData({ ...formData, specialization: e.target.value })
