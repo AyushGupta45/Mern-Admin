@@ -22,11 +22,11 @@ To get started with the project, follow these steps:
 
 3.  Set Up Environment Variables
     Create a .env file in the root of the project with the following variables:
-    MONGO_URL="MONGO URL"
-    JWT_SECRET= "knibnaeiutniubntiuaninrijk"
-    EMAIL="**\_YOUR EMAIL**"
-    PASSWORD="**APP PASSWORD**"
-    VITE_FIREBASE_API_KEY="**FIREBASE API KEY**"
+    MONGO_URL="MONGO URL",
+    JWT_SECRET= "knibnaeiutniubntiuaninrijk",
+    EMAIL="**\_YOUR EMAIL**",
+    PASSWORD="**APP PASSWORD**",
+    VITE_FIREBASE_API_KEY="**FIREBASE API KEY**",
     VERIFICATION_LINK="(**URL**)/verify-email/"
 
 4.  Steps to Obtain App Password for Sending Emails:
