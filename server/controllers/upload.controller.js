@@ -29,7 +29,7 @@ export const getassignments = async (req, res, next) => {
 
     const assignments = await Assignment.find()
       .sort({ updatedAt: sortDirection })
-      .populate("userId", "email");
+      .populate("userId", "email phonenumber");
 
     const totalAssignments = await Assignment.countDocuments();
     const now = new Date();

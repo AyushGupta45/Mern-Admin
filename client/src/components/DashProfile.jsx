@@ -22,6 +22,8 @@ import {
   HiOutlineExclamationCircle,
   HiMail,
   HiLockClosed,
+  HiEyeOff,
+  HiEye,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -35,8 +37,13 @@ export default function DashProfile() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -178,9 +185,17 @@ export default function DashProfile() {
           ) : (
             <>
               <img
-                src={imageFileUrl || currentUser.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                src={
+                  imageFileUrl ||
+                  currentUser.profilePicture ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                }
                 alt="user"
                 className="rounded-full w-32 h-32 object-cover"
+                onError={(e) => {
+                  e.target.src =
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+                }}
               />
               <div className="absolute bottom-1.5 right-1.5">
                 <MdEdit
@@ -200,24 +215,25 @@ export default function DashProfile() {
           onChange={handleChange}
           addon="@"
         />
-        <div>
-          <TextInput
-            type="text"
-            id="phonenumber"
-            placeholder="PhoneNumber"
-            defaultValue={currentUser.phonenumber}
-            onChange={handleChange}
-            addon="+91"
-            disabled={currentUser.phonenumber ? true : false}
-          />
-          {!formData.phonenumber &&
-            !currentUser.phonenumber &&
-            !currentUser.isAdmin && (
+
+        {!currentUser.isAdmin && (
+          <div>
+            <TextInput
+              type="text"
+              id="phonenumber"
+              placeholder="PhoneNumber"
+              defaultValue={currentUser.phonenumber}
+              onChange={handleChange}
+              addon="+91"
+              disabled={currentUser.phonenumber ? true : false}
+            />
+            {!formData.phonenumber && !currentUser.phonenumber && (
               <span className="text-red-500">
                 Please fill in the phone number field.
               </span>
             )}
-        </div>
+          </div>
+        )}
 
         <TextInput
           type="email"
@@ -227,13 +243,24 @@ export default function DashProfile() {
           onChange={handleChange}
           icon={HiMail}
         />
-        <TextInput
-          type="password"
-          id="password"
-          placeholder="password"
-          onChange={handleChange}
-          icon={HiLockClosed}
-        />
+        <div className="relative flex items-center">
+          <TextInput
+            className="flex-1"
+            type={showPassword ? "text" : "password"}
+            icon={HiLockClosed}
+            placeholder="Password"
+            id="password"
+            autoComplete="off"
+            onChange={handleChange}
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800 cursor-pointer"
+          >
+            {showPassword ? <HiEyeOff /> : <HiEye />}
+          </button>
+        </div>
         <Button
           type="submit"
           gradientDuoTone="purpleToBlue"

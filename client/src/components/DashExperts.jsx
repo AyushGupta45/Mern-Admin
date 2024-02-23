@@ -99,7 +99,18 @@ const DashExperts = () => {
                   </Table.Cell>
 
                   <Table.Cell className="text-center border-x-2">
-                    <img src={expert.uploadLink || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt={expert.name} className="w-8 h-8 object-cover rounded-full m-auto"/>
+                    <img
+                      src={
+                        expert.uploadLink ||
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                      }
+                      alt={expert.name}
+                      className="w-8 h-8 object-cover rounded-full m-auto"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+                      }}
+                    />
                   </Table.Cell>
 
                   <Table.Cell className="text-center border-x-2">

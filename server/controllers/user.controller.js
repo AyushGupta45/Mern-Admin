@@ -7,7 +7,6 @@ export const test = (req, res) => {
   res.json({ message: "API is working!" });
 };
 
-
 /*update*/
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
@@ -36,7 +35,16 @@ export const updateUser = async (req, res, next) => {
         errorHandler(400, "Username can only contain letters and numbers")
       );
     }
+    if (req.body.phonenumber) {
+      if (
+        req.body.phonenumber.length !== 10 ||
+        !/^\d+$/.test(req.body.phonenumber)
+      ) {
+        return next(errorHandler(400, "Phone number must be 10 digits"));
+      }
+    }
   }
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.userId,
@@ -46,6 +54,7 @@ export const updateUser = async (req, res, next) => {
           email: req.body.email,
           profilePicture: req.body.profilePicture,
           password: req.body.password,
+          phonenumber: req.body.phonenumber,
         },
       },
       { new: true }
@@ -72,7 +81,6 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-
 /*signout*/
 export const signout = (req, res, next) => {
   try {
@@ -84,7 +92,6 @@ export const signout = (req, res, next) => {
     next(error);
   }
 };
-
 
 /*getusers*/
 export const getUsers = async (req, res, next) => {

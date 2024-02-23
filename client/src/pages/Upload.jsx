@@ -1,4 +1,4 @@
-import { FileInput, Select, TextInput, Button, Spinner } from "flowbite-react";
+import { Modal, Select, TextInput, Button, Spinner } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -13,8 +13,10 @@ import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { IoCloudUpload } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Upload = () => {
+  const [showModal, setShowModal] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const [fileUploadProgress, setFileUploadProgress] = useState(null);
   const [formData, setFormData] = useState({
@@ -82,6 +84,13 @@ const Upload = () => {
       navigate("/sign-in");
       return;
     }
+
+    if (!currentUser.phonenumber) {
+      setShowModal(true);
+      return;
+    }
+
+
     try {
       const res = await fetch("/api/upload/create", {
         method: "POST",
@@ -203,6 +212,32 @@ const Upload = () => {
           </form>
         </div>
       </div>
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+              Umm, seems like your phone number is not registered yet. Please
+              register it.
+            </h3>
+
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={() => {navigate("/dashboard?tab=profile")}}>
+                Register right now!
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

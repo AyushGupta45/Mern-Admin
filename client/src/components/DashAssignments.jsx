@@ -129,6 +129,9 @@ const DashAssignments = () => {
                 User
               </Table.HeadCell>
               <Table.HeadCell className="text-center border-x-2">
+                Contact
+              </Table.HeadCell>
+              <Table.HeadCell className="text-center border-x-2">
                 Title
               </Table.HeadCell>
               <Table.HeadCell className="text-center border-x-2">
@@ -164,6 +167,13 @@ const DashAssignments = () => {
                   <Table.Cell className="text-center border-x-2">
                     {assignment.userId.email}
                   </Table.Cell>
+
+                  <Table.Cell className="text-center border-x-2">
+                    {assignment.userId.phonenumber
+                      ? "+91 " + assignment.userId.phonenumber
+                      : "Phone Number Not Registered"}
+                  </Table.Cell>
+
                   <Table.Cell className="font-medium text-gray-900 dark:text-white text-center">
                     {assignment.title}
                   </Table.Cell>

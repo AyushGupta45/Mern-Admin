@@ -9,7 +9,6 @@ const DashUsers = () => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
-  const [currStatus, setCurrentStatus] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,6 +36,7 @@ const DashUsers = () => {
       const data = await res.json();
       if (res.ok) {
         setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+        setShowModal(false)
       }
     } catch (error) {}
   };
@@ -55,6 +55,9 @@ const DashUsers = () => {
               </Table.HeadCell>
               <Table.HeadCell className="text-center border-x-2">
                 Username
+              </Table.HeadCell>
+              <Table.HeadCell className="text-center border-x-2">
+                Contact
               </Table.HeadCell>
               <Table.HeadCell className="text-center border-x-2">
                 Email
@@ -83,14 +86,27 @@ const DashUsers = () => {
 
                   <Table.Cell className="text-center border-x-2">
                     <img
-                      src={user.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+                      src={
+                        user.profilePicture ||
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                      }
                       alt={user.username}
                       className="w-8 h-8 rounded-full m-auto"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+                      }}
                     />
                   </Table.Cell>
 
                   <Table.Cell className="text-center border-x-2">
                     {user.username}
+                  </Table.Cell>
+
+                  <Table.Cell className="text-center border-x-2">
+                    {user.phonenumber
+                      ? "+91 " + user.phonenumber
+                      : "Phone Number Not registered"}
                   </Table.Cell>
 
                   <Table.Cell className="text-center border-x-2">
