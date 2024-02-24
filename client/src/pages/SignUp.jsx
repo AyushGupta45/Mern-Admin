@@ -20,12 +20,12 @@ const SignUp = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }, []);
 
@@ -73,28 +73,28 @@ const SignUp = () => {
   return (
     <div className="min-h-screen bg-blue-100 flex justify-center ">
       <div className="w-10/12">
-        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col xl:flex-row items-center gap-20 py-20">
+        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col md:flex-row items-center gap-20 py-20">
           <div className="w-full">
             <Link
               to="/"
-              className="font-bold text-4xl flex justify-center items-center gap-2"
+              className="font-bold text-4xl flex flex-col justify-center items-center gap-2"
             >
               <img
                 src="/assets/logo.jpg"
                 alt="Home"
                 className="w-36 h-auto md:h-full rounded-full"
               />
-              <p className="text-2xl text-blue-800">
+              <p className="text-xl text-blue-800">
                 MyAssignmentAndProjectHelp
               </p>
             </Link>
-            <p className="text-2xl text-blue-800 mt-5">
+            <p className="text-xl text-blue-800 mt-5">
               Welcome to our signup page! Ready to join our community? Sign up
               <span className="font-bold"> now </span>to access exclusive
               features and benefits. With just a few simple steps, you'll be on
               your way to discovering a world of opportunities. Don't miss out!
             </p>
-          </div>
+         </div>
 
           <div className="w-full">
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

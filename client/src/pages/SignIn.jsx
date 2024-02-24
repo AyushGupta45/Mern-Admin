@@ -60,23 +60,23 @@ const SignIn = () => {
   return (
     <div className="min-h-screen bg-blue-100 flex justify-center">
       <div className="w-10/12">
-        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col xl:flex-row items-center gap-20 py-20">
+        <div className="flex p-3 w-full sm:w-11/12 mx-auto flex-col md:flex-row items-center gap-20 py-20">
           <div className="w-full">
             <Link
               to="/"
-              className="font-bold text-4xl flex justify-center items-center gap-2"
+              className="font-bold text-4xl flex flex-col justify-center items-center gap-2"
             >
               <img
                 src="/assets/logo.jpg"
                 alt="Home"
                 className="w-36 h-auto md:h-full rounded-full"
               />
-              <p className="text-2xl text-blue-800">
+              <p className="text-xl text-blue-800">
                 MyAssignmentAndProjectHelp
               </p>
             </Link>
             <div>
-              <p className="text-2xl text-blue-800 mt-5">
+              <p className="text-xl text-blue-800 mt-5">
                 Welcome back to our sign-in page! Already a member?{" "}
                 <span className="font-bold">Sign in</span> now to access your
                 account.
