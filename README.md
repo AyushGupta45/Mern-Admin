@@ -13,51 +13,46 @@ Before running the project locally, make sure you have the following installed o
 
 To get started with the project, follow these steps:
 
-1. Clone the Repository
-   ```bash
-   git clone https://github.com/AyushGupta45/Mern-Admin.git
-   cd mern-admin-dashboard
-   ```
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/AyushGupta45/Mern-Admin.git
+    cd mern-admin-dashboard
+    ```
 
-2. Install Dependencies
-   ```bash
-   cd client
-   npm install
+2. **Install Dependencies**
+    ```bash
+    cd client
+    npm install
 
-   cd ../server
-   npm install
-   ```
+    cd ../server
+    npm install
+    ```
 
+3. **Set Up Environment Variables**
 
-3. Set Up Environment Variables
-Part 1: Create Environment Variables in Root
-Create a .env file in the root of the project and add the following keys:
+    #### Part 1: Create Environment Variables in Root
+    1. In the project root directory, create a file named `.env`.
+    2. Add the MongoDB URL, JWT Secret, Email, Password, and Verification Link:
+        ```bash
+        MONGO_URL="MONGO URL"
+        JWT_SECRET="knibnaeiutniubntiuaninrijk"
+        EMAIL="_YOUR EMAIL"
+        PASSWORD="APP PASSWORD"
+        VERIFICATION_LINK="(URL)/verify-email/"
+        ```
 
-In the project root directory, create a file named .env.
-Add the MongoDB URL, JWT Secret, Email, Password, and Verification Link:
+    #### Part 2: Create Environment Variable for Firebase API Key in Client
+    1. Navigate to the `client` directory of the project.
+        ```bash
+        cd client
+        ```
 
-```bash
-MONGO_URL="MONGO URL"
-JWT_SECRET="knibnaeiutniubntiuaninrijk"
-EMAIL="_YOUR EMAIL"
-PASSWORD="APP PASSWORD"
-VERIFICATION_LINK="(URL)/verify-email/"
-```
+    2. Create a file named `.env`.
 
-Part 2: Create Environment Variable for Firebase API Key in Client
-Create an .env file in the client directory and add the Firebase API Key:
-Navigate to the client directory of the project.
-
-```bash
-cd client
-Create a file named .env.
-```
-
-Add the Firebase API Key to the .env file in the client directory:
-
-```BASH
-VITE_FIREBASE_API_KEY="FIREBASE API KEY"
-```
+    3. Add the Firebase API Key to the `.env` file in the `client` directory:
+        ```bash
+        VITE_FIREBASE_API_KEY="FIREBASE API KEY"
+        ```
 
 ## Steps to Obtain App Password for Sending Emails:
 
@@ -104,25 +99,24 @@ VITE_FIREBASE_API_KEY="FIREBASE API KEY"
    - In the Firebase Console, navigate to the "Storage" section.
    - Click on the "Rules" tab.
    - Replace the default rules with the following rules:
+        ```firebase
+        rules_version = '2';
 
-     ```firebase
-     rules_version = '2';
+        service firebase.storage {
+          match /b/{bucket}/o {
+            match /{allPaths=**} {
+              allow read;
+              allow write: if request.resource.size < 2 * 1024 * 1024 &&
+                (request.resource.contentType.matches('image/.*') ||
+                request.resource.contentType.matches('application/pdf') ||
+                request.resource.contentType.matches('application/msword') ||
+                request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
+            }
+          }
+        }
+        ```
 
-     service firebase.storage {
-       match /b/{bucket}/o {
-         match /{allPaths=**} {
-           allow read;
-           allow write: if request.resource.size < 2 * 1024 * 1024 &&
-             (request.resource.contentType.matches('image/.*') ||
-             request.resource.contentType.matches('application/pdf') ||
-             request.resource.contentType.matches('application/msword') ||
-             request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
-         }
-       }
-     }
-     ```
-
-   These rules allow read access to everyone and write access if the uploaded file meets the specified conditions (file size and content type).
+        These rules allow read access to everyone and write access if the uploaded file meets the specified conditions (file size and content type).
 
 ## Running the Project in Development Mode
 
@@ -140,7 +134,7 @@ To run the project in development mode, you'll need two terminal windows.
    npm run dev
    ```
 
-This will run the server on [http://localhost:3000](http://localhost:3000) and the React app on [http://localhost:5173](http://localhost:5173).
+   This will run the server on [http://localhost:3000](http://localhost:3000) and the React app on [http://localhost:5173](http://localhost:5173).
 
 ## Accessing the Application
 
