@@ -142,7 +142,3 @@ To grant administrative privileges to a user, follow these steps:
 ## Questions or Issues
 
 If you have any questions or encounter any issues while setting up or running the project, feel free to create an issue on this repository. We'll be happy to help!
-
----
-
-This realignment should make the README.md file easier to read and follow for users.
