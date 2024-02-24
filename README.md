@@ -28,18 +28,36 @@ To get started with the project, follow these steps:
    npm install
    ```
 
+
 3. Set Up Environment Variables
+Part 1: Create Environment Variables in Root
+Create a .env file in the root of the project and add the following keys:
 
-   Create a `.env` file in the root of the project with the following variables:
+In the project root directory, create a file named .env.
+Add the MongoDB URL, JWT Secret, Email, Password, and Verification Link:
 
-   ```plaintext
-   MONGO_URL="MONGO URL"
-   JWT_SECRET="knibnaeiutniubntiuaninrijk"
-   EMAIL="_YOUR EMAIL"
-   PASSWORD="APP PASSWORD"
-   VITE_FIREBASE_API_KEY="FIREBASE API KEY"
-   VERIFICATION_LINK="(URL)/verify-email/"
-   ```
+```bash
+MONGO_URL="MONGO URL"
+JWT_SECRET="knibnaeiutniubntiuaninrijk"
+EMAIL="_YOUR EMAIL"
+PASSWORD="APP PASSWORD"
+VERIFICATION_LINK="(URL)/verify-email/"
+```
+
+Part 2: Create Environment Variable for Firebase API Key in Client
+Create an .env file in the client directory and add the Firebase API Key:
+Navigate to the client directory of the project.
+
+```bash
+cd client
+Create a file named .env.
+```
+
+Add the Firebase API Key to the .env file in the client directory:
+
+```BASH
+VITE_FIREBASE_API_KEY="FIREBASE API KEY"
+```
 
 ## Steps to Obtain App Password for Sending Emails:
 
